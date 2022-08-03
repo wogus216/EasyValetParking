@@ -2,15 +2,15 @@ import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
+// components
+import Page from 'src/components/Page';
+import Logo from 'src/components/Logo';
+// sections
+import { LoginForm } from 'src/sections/auth/login';
+// text
+import text from 'src/utils/text';
 // hooks
 import useResponsive from '../hooks/useResponsive';
-// components
-import Page from '../components/Page';
-import Logo from '../components/Logo';
-// sections
-import { LoginForm } from '../sections/auth/login';
-import AuthSocial from '../sections/auth/AuthSocial';
-
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
@@ -58,9 +58,8 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Login() {
   const smUp = useResponsive('up', 'sm');
-
   const mdUp = useResponsive('up', 'md');
-
+  const { login } = text;
   return (
     <Page title="Login">
       <RootStyle>
@@ -69,9 +68,9 @@ export default function Login() {
 
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
+              {login.ment1}
               <Link variant="subtitle2" component={RouterLink} to="/register">
-                Get started
+                {login.ment2}
               </Link>
             </Typography>
           )}
@@ -80,8 +79,10 @@ export default function Login() {
         {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              오늘 좋은 하루 보내세요.
+              {/* //멘트 랜덤 20개 정도?? */}
             </Typography>
+            {/* 이미지도 교체 생각 */}
             <img src="/static/illustrations/illustration_login.png" alt="login" />
           </SectionStyle>
         )}
@@ -89,20 +90,18 @@ export default function Login() {
         <Container maxWidth="sm">
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              {login.ment3}
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
-
-            <AuthSocial />
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>{login.ment4}</Typography>
 
             <LoginForm />
 
             {!smUp && (
               <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                Don’t have an account?{' '}
+                {login.ment1}
                 <Link variant="subtitle2" component={RouterLink} to="/register">
-                  Get started
+                  {login.ment2}
                 </Link>
               </Typography>
             )}

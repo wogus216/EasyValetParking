@@ -7,6 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// text
+
+import text from 'src/utils/text';
+
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
@@ -15,6 +20,7 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hoo
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const { loginForm } = text;
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,7 +32,7 @@ export default function LoginForm() {
   const defaultValues = {
     email: '',
     password: '',
-    remember: true,
+    remember: false,
   };
 
   const methods = useForm({
@@ -65,14 +71,14 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
+        <RHFCheckbox name="remember" label={loginForm.ment1} />
         <Link variant="subtitle2" underline="hover">
-          Forgot password?
+          {loginForm.ment2}
         </Link>
       </Stack>
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-        Login
+        {loginForm.ment3}
       </LoadingButton>
     </FormProvider>
   );
