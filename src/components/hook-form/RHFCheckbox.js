@@ -19,7 +19,10 @@ export function RHFCheckbox({ name, ...other }) {
         <Controller
           name={name}
           control={control}
-          render={({ field }) => <Checkbox {...field} checked={field.value} />}
+          render={({ field }) => {
+            <Checkbox {...field} checked={field.value} />;
+            console.log('field1', field);
+          }}
         />
       }
       {...other}
@@ -36,7 +39,7 @@ RHFMultiCheckbox.propTypes = {
 
 export function RHFMultiCheckbox({ name, options, ...other }) {
   const { control } = useFormContext();
-
+  console.log('options', options);
   return (
     <Controller
       name={name}
