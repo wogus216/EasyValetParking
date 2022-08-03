@@ -80,7 +80,7 @@ export default function Register() {
         <Container>
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
-              회원가입 부탁드립니다.
+              회원가입
             </Typography>
 
             <RegisterForm />

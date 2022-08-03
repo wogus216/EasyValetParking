@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, MenuItem } from '@mui/material';
+import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // components
@@ -43,44 +43,43 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
+    console.log('data', data);
     navigate('/dashboard', { replace: true });
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="nickName" label="nickname 입력부탁드립니다." />
+    <FormProvider methods={methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={3}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <RHFTextField name="nickName" label="닉네임(한영상관없어요)" />
+          </Stack>
+
+          <RHFTextField name="email" label="이메일" />
+
+          <RHFTextField
+            name="password"
+            label="비밀번호 입력(최소5자리)"
+            type={showPassword ? 'text' : 'password'}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
+                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <RHFTextField name="password" label="비밀번호 확인" type={showPassword ? 'text' : 'password'} />
+          <RHFSelect name="department" label="부서선택" arr={['FS', 'FD', 'GSC', 'F&B', 'ETC']} />
+          <RHFSelect name="hotel" label="호텔선택" arr={['파크하얏트']} />
+          <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+            회원가입
+          </LoadingButton>
         </Stack>
-
-        <RHFTextField name="email" label="Email address 입력부탁드립니다." />
-
-        <RHFTextField
-          name="password"
-          label="Password 입력부탁드립니다."
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <RHFTextField name="password" label="비밀번호 확인" type={showPassword ? 'text' : 'password'} />
-        <RHFSelect name="부서" label="부서를 선택해주세요" defaultValue="부서를 선택해주세요">
-          <MenuItem value="">Escolha uma opção</MenuItem>
-          <MenuItem value="3">03 parcelas</MenuItem>
-          <MenuItem value="6">06 parcelas</MenuItem>
-          <MenuItem value="9">09 parcelas</MenuItem>
-        </RHFSelect>
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Register
-        </LoadingButton>
-      </Stack>
+      </form>
     </FormProvider>
   );
 }
