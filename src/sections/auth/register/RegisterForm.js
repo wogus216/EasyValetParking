@@ -20,9 +20,16 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    nickName: Yup.string().required('닉네임을 입력해주세요.'),
+    nickName: Yup.string()
+      .required('닉네임을 입력해주세요.')
+      .matches(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/, { message: '한글또는 영어만 입력해주세요.' }),
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
-    password: Yup.string().required('비밀번호를 입력해주세요.').min(5, '비밀번호는 최소 5자리 이상입니다.'),
+    password: Yup.string()
+      .required('비밀번호를 입력해주세요.')
+      .matches('^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{5,}$', {
+        message: '문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요',
+      })
+      .min(5, '비밀번호는 최소 5자리 이상입니다.'),
     passwordCheck: Yup.string()
       .required('비밀번호를 입력해주세요.')
       .min(5, '비밀번호는 최소 5자리 이상입니다.')
@@ -58,12 +65,12 @@ export default function RegisterForm() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="nickName" label="닉네임(한영상관없어요)" />
+          <RHFTextField name="nickName" label="닉네임(한글,영여 상관없습니다.)" />
         </Stack>
         <RHFTextField name="email" label="Email address" />
         <RHFTextField
           name="password"
-          label="비밀번호 입력(최소5자리)"
+          label="문자,숫자,특수문자를 조합해 최소 8자리를 입력해주세요."
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
