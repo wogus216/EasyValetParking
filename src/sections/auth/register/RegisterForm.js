@@ -20,17 +20,22 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    nickName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    nickName: Yup.string().required('닉네임을 입력해주세요.'),
+    email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
+    password: Yup.string().required('비밀번호를 입력해주세요.').min(5, '비밀번호는 최소 5자리 이상입니다.'),
+    passwordCheck: Yup.string()
+      .required('비밀번호를 입력해주세요.')
+      .min(5, '비밀번호는 최소 5자리 이상입니다.')
+      .oneOf(['password'], '비밀번호가 일치하지 않습니다.'),
+    department: Yup.string().required('부서를 선택해주세요.'),
+    hotel: Yup.string().required('호텔을 선택해주세요.'),
   });
 
   const defaultValues = {
     nickName: '',
-    lasName: '',
     email: '',
     password: '',
+    passwordCheck: '',
     department: '',
     hotel: '',
   };
@@ -54,7 +59,6 @@ export default function RegisterForm() {
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="nickName" label="닉네임(한영상관없어요)" />
-          <RHFTextField name="lastName" label="last" />
         </Stack>
         <RHFTextField name="email" label="Email address" />
         <RHFTextField
@@ -71,9 +75,9 @@ export default function RegisterForm() {
             ),
           }}
         />{' '}
-        {/* <RHFTextField name="password" label="비밀번호 확인" type={showPassword ? 'text' : 'password'} /> */}
-        {/* <RHFSelect name="department" label="부서선택" arr={['FS', 'FD', 'GSC', 'F&B', 'ETC']} /> */}
-        {/* <RHFSelect name="hotel" label="호텔선택" arr={['파크하얏트']} /> */}
+        <RHFTextField name="passwordCheck" label="비밀번호 확인" type={showPassword ? 'text' : 'password'} />
+        <RHFSelect name="department" label="부서선택" arr={['FS', 'FD', 'GSC', 'F&B', 'ETC']} />
+        <RHFSelect name="hotel" label="호텔선택" arr={['파크하얏트']} />
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           회원가입
         </LoadingButton>

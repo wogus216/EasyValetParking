@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { InputLabel, Select, FormControl, MenuItem } from '@mui/material';
+import { InputLabel, Select, FormControl, MenuItem, FormHelperText } from '@mui/material';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ export default function RHFSelect({ name, label, arr }) {
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <FormControl {...field} fullWidth>
           <InputLabel id="demo-simple-select-label">{label}</InputLabel>
           <Select
@@ -28,6 +28,7 @@ export default function RHFSelect({ name, label, arr }) {
             value={department}
             label="부서선택"
             onChange={handleChange}
+            error={!!error}
           >
             {arr.map((data, i) => (
               <MenuItem key={i} value={data}>
@@ -35,6 +36,7 @@ export default function RHFSelect({ name, label, arr }) {
               </MenuItem>
             ))}
           </Select>
+          <FormHelperText error={!!error}>{error?.message}</FormHelperText>
         </FormControl>
       )}
     />
