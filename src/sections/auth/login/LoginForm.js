@@ -32,7 +32,7 @@ export default function LoginForm() {
   const defaultValues = {
     email: '',
     password: '',
-    remember: false,
+    remember: true,
   };
 
   const methods = useForm({
@@ -45,8 +45,8 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const onSubmit = async (data) => {
+    console.log('data', data);
   };
 
   return (
