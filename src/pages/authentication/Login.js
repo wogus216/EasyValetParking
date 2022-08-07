@@ -10,7 +10,7 @@ import { LoginForm } from 'src/sections/auth/login';
 // text
 import text from 'src/utils/text';
 // hooks
-import useResponsive from '../hooks/useResponsive';
+import useResponsive from '../../hooks/useResponsive';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({

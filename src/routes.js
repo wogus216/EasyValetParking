@@ -5,11 +5,13 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Blog from './pages/Blog';
 import User from './pages/User';
-import Login from './pages/Login';
+
 import NotFound from './pages/Page404';
-import Register from './pages/Register';
+import Login from './pages/authentication/Login';
+import Register from './pages/authentication/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import ResetPassword from './pages/authentication/ResetPassword';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +34,7 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
+        { path: 'reset-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
