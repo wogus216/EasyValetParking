@@ -9,12 +9,12 @@ import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // text
-
 import text from 'src/utils/text';
-
+import { passwordReg } from 'src/utils/regEx';
 // components
-import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import ResetPassword from 'src/components/ResetPassword';
+import Iconify from 'src/components/Iconify';
+import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -25,14 +25,19 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
+    password: Yup.string()
+      .required('비밀번호를 입력해주세요.')
+      .matches(passwordReg, {
+        message: '문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요',
+      })
+      .min(5, '비밀번호는 최소 5자리 이상입니다.'),
   });
 
   const defaultValues = {
     email: '',
     password: '',
-    remember: true,
+    remember: false,
   };
 
   const methods = useForm({
@@ -73,12 +78,12 @@ export default function LoginForm() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
         <RHFCheckbox name="remember" label={loginForm.ment1} />
         <Link variant="subtitle2" underline="hover">
-          {loginForm.ment2}
+          <ResetPassword />
         </Link>
       </Stack>
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-        {loginForm.ment3}
+        {loginForm.ment2}
       </LoadingButton>
     </FormProvider>
   );

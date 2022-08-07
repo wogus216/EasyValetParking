@@ -1,13 +1,13 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-
+// function
+import { nickNameReg, passwordReg } from 'src/utils/regEx';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
@@ -15,18 +15,16 @@ import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
-  const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     nickName: Yup.string()
       .required('닉네임을 입력해주세요.')
-      .matches(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/, { message: '한글또는 영어만 입력해주세요.' }),
+      .matches(nickNameReg, { message: '한글또는 영어만 입력해주세요.' }),
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
     password: Yup.string()
       .required('비밀번호를 입력해주세요.')
-      .matches('^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{5,}$', {
+      .matches(passwordReg, {
         message: '문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요',
       })
       .min(5, '비밀번호는 최소 5자리 이상입니다.'),
@@ -65,7 +63,7 @@ export default function RegisterForm() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="nickName" label="닉네임(한글,영여 상관없습니다.)" />
+          <RHFTextField name="nickName" label="닉네임(한글,영어 상관없습니다.)" />
         </Stack>
         <RHFTextField name="email" label="Email address" />
         <RHFTextField
