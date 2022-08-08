@@ -68,7 +68,7 @@ export default function RegisterForm() {
         <RHFTextField name="email" label="Email address" />
         <RHFTextField
           name="password"
-          label="문자,숫자,특수문자를 조합해 최소 8자리를 입력해주세요."
+          label="문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요."
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
