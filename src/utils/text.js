@@ -11,15 +11,19 @@ const text = {
   },
   resetPassword: {
     ment1: '비밀번호를 잊어 버리셨나요?',
-    ment2: '비밀번호 재발급',
-    ment3: '회원가입하셨던 이메일을 기입하시면 새로운 비밀번호를 전송해드립니다.',
-    ment4: '취소',
-    ment5: '이메일 전송',
+    ment2: '회원가입하셨던 이메일을 기입하시면 새로운 비밀번호를 전송해드립니다.',
+    ment3: '이메일 전송',
+    ment4: '뒤로가기',
   },
   register: {
     ment1: '편리한 시스템을 경험해보세요',
     ment2: '회원가입 양식',
     ment3: '로그인',
+  },
+  vipRegister: {
+    ment1: '편리한 시스템을 경험해보세요',
+    ment2: 'vip등록 양식',
+    ment3: '등록',
   },
 };
 export default text;

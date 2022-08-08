@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // function
-import { nickNameReg, passwordReg } from 'src/utils/regEx';
+import { nameReg, passwordReg } from 'src/utils/regEx';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
@@ -20,7 +20,7 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     nickName: Yup.string()
       .required('닉네임을 입력해주세요.')
-      .matches(nickNameReg, { message: '한글또는 영어만 입력해주세요.' }),
+      .matches(nameReg, { message: '한글또는 영어만 입력해주세요.' }),
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
     password: Yup.string()
       .required('비밀번호를 입력해주세요.')

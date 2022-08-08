@@ -12,6 +12,7 @@ import Register from './pages/authentication/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import ResetPassword from './pages/authentication/ResetPassword';
+import VipRegister from './pages/vip/VipRegister';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +35,7 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
+        { path: 'vip-register', element: <VipRegister /> },
         { path: 'reset-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },

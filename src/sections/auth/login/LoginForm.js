@@ -12,7 +12,6 @@ import { LoadingButton } from '@mui/lab';
 import text from 'src/utils/text';
 import { passwordReg } from 'src/utils/regEx';
 // components
-import ResetPassword from 'src/pages/authentication/ResetPassword';
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
 
