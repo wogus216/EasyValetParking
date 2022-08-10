@@ -13,6 +13,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import ResetPassword from './pages/authentication/ResetPassword';
 import VipRegister from './pages/vip/VipRegister';
+import ParkingSystem from './pages/ParkingSystem';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +23,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
+        { path: 'parking-system', element: <ParkingSystem /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },

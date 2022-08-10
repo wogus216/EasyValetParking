@@ -11,10 +11,13 @@ import { nameReg, numberReg, capitalReg } from 'src/utils/regEx';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField, RHFMultiTextField } from 'src/components/hook-form';
+// text
+import text from 'src/utils/text';
 
 // ----------------------------------------------------------------------
 
 export default function VipRegisterForm() {
+  const { vipRegister } = text;
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('이름을 기입해주세요.').matches(nameReg, { message: '한글또는 영어만 기입해주세요.' }),
     carNumber: Yup.string()
@@ -23,7 +26,7 @@ export default function VipRegisterForm() {
       .min(4, '최소 4자리이상입니다.'),
     carBrand: Yup.string()
       .required('차량브랜드를 기입해주세요.')
-      .matches(capitalReg, { message: '대문자만 기입해주세요.' }),
+      .matches(capitalReg, { message: '대문자로 기입해주세요.' }),
     group: Yup.string().required('소속을 선택해주세요.'),
     specialNote: Yup.string().matches(nameReg, { message: '한글또는 영어만 기입해주세요.' }),
   });
@@ -62,7 +65,7 @@ export default function VipRegisterForm() {
         <RHFSelect name="group" label="소속을 선택해주세요." arr={['파크클럽', 'HDC', 'ETC']} />
         <RHFMultiTextField name="specialNote" label="특이사항을 기입해주세요" />
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          회원가입
+          {vipRegister.ment3}
         </LoadingButton>
       </Stack>
     </FormProvider>

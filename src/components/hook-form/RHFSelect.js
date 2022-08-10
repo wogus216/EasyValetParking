@@ -10,25 +10,24 @@ RHFSelect.propTypes = {
 };
 
 export default function RHFSelect({ name, label, arr }) {
-  const [department, setDepartment] = useState('');
   const { control } = useFormContext();
-  const handleChange = (event) => {
-    setDepartment(event.target.value);
-  };
+
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field, fieldState: { error } }) => (
-        <FormControl {...field} fullWidth>
-          <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <FormControl fullWidth>
+          <InputLabel error={error} id="demo-simple-select-label">
+            {label}
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={department}
+            value={value}
             label="부서선택"
-            onChange={handleChange}
-            error={!!error}
+            onChange={onChange}
+            error={error}
           >
             {arr.map((data, i) => (
               <MenuItem key={i} value={data}>
@@ -36,7 +35,7 @@ export default function RHFSelect({ name, label, arr }) {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText error={!!error}>{error?.message}</FormHelperText>
+          <FormHelperText error={error}>{error?.message}</FormHelperText>
         </FormControl>
       )}
     />

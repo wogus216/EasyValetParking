@@ -7,6 +7,11 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
+    title: 'parkingSystem',
+    path: '/dashboard/parking-system',
+    icon: getIcon('ic:outline-local-parking'),
+  },
+  {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),
@@ -34,6 +39,11 @@ const navConfig = [
   {
     title: 'register',
     path: '/register',
+    icon: getIcon('eva:person-add-fill'),
+  },
+  {
+    title: 'vipRegister',
+    path: '/vip-register',
     icon: getIcon('eva:person-add-fill'),
   },
   {
