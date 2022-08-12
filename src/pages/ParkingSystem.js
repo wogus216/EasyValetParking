@@ -1,13 +1,18 @@
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Button, Grid, Container, Typography } from '@mui/material';
+
+// funciton
+import { fDateTime } from 'src/utils/formatTime';
+
 // components
-import Page from '../components/Page';
-import Iconify from '../components/Iconify';
+import Page from 'src/components/Page';
+import Iconify from 'src/components/Iconify';
 // sections
+import { StatusBox } from 'src/sections/parkingSystem';
+
 import {
-  AppTasks,
   AppNewsUpdate,
   AppOrderTimeline,
   AppCurrentVisits,
@@ -16,7 +21,8 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
-} from '../sections/@dashboard/app';
+  AppTasks,
+} from 'src/sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
 
@@ -24,15 +30,35 @@ export default function ParkingSystem() {
   const theme = useTheme();
 
   return (
-    <Page title="Dashboard">
+    <Page title="ParkingSystem">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h4" sx={{ mb: 5 }}>
+              {fDateTime(new Date())}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} textAlign="center">
+            <Typography variant="h4" sx={{ mb: 5 }}>
+              날씨
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h4" align="center" sx={{ mb: 5 }}>
+              현재 : 50대
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3} textAlign="center">
+            <Button size="large" variant="contained" color="error">
+              출차중지버튼
+            </Button>
+          </Grid>
+        </Grid>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <StatusBox title="요청현황" />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
