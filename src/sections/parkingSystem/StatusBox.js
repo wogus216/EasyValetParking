@@ -33,21 +33,22 @@ StatusBox.propTypes = {
 
 export default function StatusBox({ title, total, icon, color = 'primary', sx, ...other }) {
   return (
-    <Card
-      sx={{
-        py: 5,
-        boxShadow: 0,
-        textAlign: 'center',
-        color: (theme) => theme.palette[color].darker,
-        bgcolor: (theme) => theme.palette[color].lighter,
-        ...sx,
-      }}
-      {...other}
-    >
+    <>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>
-      <StatusTable />
-    </Card>
+      <Card
+        sx={{
+          boxShadow: 0,
+          textAlign: 'center',
+          color: (theme) => theme.palette[color].darker,
+          bgcolor: (theme) => theme.palette[color].lighter,
+          ...sx,
+        }}
+        {...other}
+      >
+        <StatusTable />
+      </Card>
+    </>
   );
 }

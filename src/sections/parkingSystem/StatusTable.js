@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Button, styled } from '@mui/material';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 100 },
@@ -20,16 +20,23 @@ const rows = [
   { id: '1', carNumber: '1234', request: '출차' },
   { id: '2', carNumber: '1234', request: '외출' },
   { id: '3', carNumber: '1234', request: '출차' },
-  { id: '4', carNumber: '1234', request: '외출' },
-  { id: '5', carNumber: '1234', request: '출차' },
-  { id: '6', carNumber: '1234', request: '외출' },
-  { id: '7', carNumber: '1234', request: '출차' },
+  { id: '4', carNumber: '8678', request: '외출' },
+  { id: '5', carNumber: '6788', request: '출차' },
+  { id: '6', carNumber: '6787', request: '외출' },
+  { id: '7', carNumber: '4564', request: '출차' },
   { id: '8', carNumber: '1234', request: '외출' },
+  { id: '9', carNumber: '1234', request: '외출' },
+  { id: '10', carNumber: '1234', request: '외출' },
+  { id: '11', carNumber: '1234', request: '외출' },
+  { id: '12', carNumber: '1234', request: '외출' },
+  { id: '13', carNumber: '1234', request: '외출' },
+  { id: '14', carNumber: '1234', request: '외출' },
+  { id: '15', carNumber: '6789', request: '외출' },
 ];
 
 export default function ColumnGroupingTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -40,20 +47,30 @@ export default function ColumnGroupingTable() {
     setPage(0);
   };
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 300 }}>
         <Table>
-          <TableHead>
+          <TableHead st>
             {columns.map((column) => (
-              <TableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
+              <StyledTableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
                 {column.label}
-              </TableCell>
+              </StyledTableCell>
             ))}
           </TableHead>
 
           <TableBody>
-            {rows.map((data, i) => (
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, i) => (
               <TableRow key={data.id}>
                 <TableCell>{data.carNumber}</TableCell>
                 <TableCell>{data.request}</TableCell>
@@ -66,7 +83,7 @@ export default function ColumnGroupingTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 20]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
