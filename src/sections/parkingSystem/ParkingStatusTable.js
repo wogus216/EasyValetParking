@@ -34,7 +34,7 @@ const rows = [
   { id: '15', carNumber: '6789', request: '외출' },
 ];
 
-export default function ColumnGroupingTable() {
+export default function ParkingStatusTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
 
@@ -70,7 +70,7 @@ export default function ColumnGroupingTable() {
           </TableHead>
 
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data, i) => (
+            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data) => (
               <TableRow key={data.id}>
                 <TableCell>{data.carNumber}</TableCell>
                 <TableCell>{data.request}</TableCell>

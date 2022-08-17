@@ -18,7 +18,6 @@ import {
   AppCurrentVisits,
   AppWebsiteVisits,
   AppTrafficBySite,
-  AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
   AppTasks,
@@ -32,45 +31,27 @@ export default function ParkingSystem() {
   return (
     <Page title="ParkingSystem">
       <Container maxWidth="xl">
-        <Grid container spacing={3}>
+        <Grid container spacing={3} textAlign="center">
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h4" sx={{ mb: 5 }}>
-              {fDateTime(new Date())}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3} textAlign="center">
-            <Typography variant="h4" sx={{ mb: 5 }}>
-              날씨
-            </Typography>
+            <Typography variant="h5">요청현황</Typography>
+            <StatusBox />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h4" align="center" sx={{ mb: 5 }}>
-              현재 : 50대
-            </Typography>
+            <Typography variant="h5">출차현황</Typography>
+            <StatusBox />
           </Grid>
-          <Grid item xs={12} sm={6} md={3} textAlign="center">
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h5">외출현황</Typography>
+            <StatusBox />
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
             <Button size="large" variant="contained" color="error">
               출차중지버튼
             </Button>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <StatusBox title="요청현황" />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <StatusBox title="요청현황" />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <StatusBox title="요청현황" />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <StatusBox title="요청현황" />
+            <StatusBox purpose="주차구역" />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>

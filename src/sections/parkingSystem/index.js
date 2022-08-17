@@ -1,2 +1,3 @@
 export { default as StatusBox } from './StatusBox';
-export { default as StatusTable } from './StatusTable';
+export { default as ParkingStatusTable } from './ParkingStatusTable';
+export { default as ParkginglotTable } from './ParkginglotTable';

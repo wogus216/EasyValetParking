@@ -6,37 +6,21 @@ import { Card, Typography } from '@mui/material';
 import { fShortenNumber } from 'src/utils/formatNumber';
 // components
 import Iconify from 'src/components/Iconify';
-import { StatusTable } from '.';
+import { ParkingStatusTable, ParkginglotTable } from '.';
 
 // ----------------------------------------------------------------------
-
-const IconWrapperStyle = styled('div')(({ theme }) => ({
-  margin: 'auto',
-  display: 'flex',
-  borderRadius: '50%',
-  alignItems: 'center',
-  width: theme.spacing(8),
-  height: theme.spacing(8),
-  justifyContent: 'center',
-  marginBottom: theme.spacing(3),
-}));
 
 // ----------------------------------------------------------------------
 
 StatusBox.propTypes = {
   color: PropTypes.string,
-  icon: PropTypes.string,
-  title: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
   sx: PropTypes.object,
 };
 
-export default function StatusBox({ title, total, icon, color = 'primary', sx, ...other }) {
+export default function StatusBox({ color = 'primary', purpose, sx, ...other }) {
   return (
     <>
-      <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        {title}
-      </Typography>
       <Card
         sx={{
           boxShadow: 0,
@@ -47,7 +31,8 @@ export default function StatusBox({ title, total, icon, color = 'primary', sx, .
         }}
         {...other}
       >
-        <StatusTable />
+        {purpose === '주차구역' && <ParkginglotTable />}
+        {purpose !== '주차구역' && <ParkingStatusTable />}
       </Card>
     </>
   );
