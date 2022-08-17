@@ -49,10 +49,10 @@ export default function ParkingSystem() {
 
           <Grid item xs={12} sm={6} md={3}>
             <Grid container>
-              <Typography marginRight={10} variant="h5">
-                금일입차 : 50대
+              <Typography marginLeft={1} marginRight={9} variant="h5">
+                오늘입차 : 50대
               </Typography>
-              <Typography variant="h5">금일출차 : 25대</Typography>
+              <Typography variant="h5">오늘출차 : 25대</Typography>
             </Grid>
 
             <StatusBox purpose="주차구역" />

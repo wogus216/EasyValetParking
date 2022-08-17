@@ -14,14 +14,6 @@ const columns = [
   { id: 'button', label: '현재수', minWidth: 100 },
 ];
 
-// const rows = [
-//   { id: '0', keyNumber: '1', parkginglotName: 'M', status: 'M' },
-//   { id: '1', keyNumber: '2', parkginglotName: 'M2', status: 'M2' },
-//   { id: '2', keyNumber: 'B', parkginglotName: 'B', status: 'parkginglogStatus.B' },
-//   { id: '3', keyNumber: '3', parkginglotName: 'IP', status: 'parkginglogStatus.IP' },
-//   { id: '4', keyNumber: '4', parkginglotName: 'K', status: 'parkginglogStatus.K' },
-// ];
-
 export default function ParkginglotTable() {
   const [parkginglogStatus, setparkginglogStatus] = useState({
     M: 1,
@@ -35,16 +27,19 @@ export default function ParkginglotTable() {
     { id: '0', keyNumber: '1', parkginglotName: 'M', status: parkginglogStatus.M },
     { id: '1', keyNumber: '2', parkginglotName: 'M2', status: parkginglogStatus.M2 },
     { id: '2', keyNumber: 'B', parkginglotName: 'B', status: parkginglogStatus.B },
-    { id: '3', keyNumber: '3', parkginglotName: 'IP', status: parkginglogStatus.IP },
-    { id: '4', keyNumber: '4', parkginglotName: 'K', status: parkginglogStatus.K },
+    { id: '4', keyNumber: '3', parkginglotName: 'IP', status: parkginglogStatus.IP },
+    { id: '3', keyNumber: '4', parkginglotName: 'H', status: parkginglogStatus.IP },
+    { id: '5', keyNumber: '5', parkginglotName: 'K', status: parkginglogStatus.K },
   ];
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white,
+      textAlign: 'center',
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 20,
+      fontSize: 18,
+      textAlign: 'center',
     },
   }));
 
@@ -54,7 +49,7 @@ export default function ParkginglotTable() {
         <Table>
           <TableHead st>
             {columns.map((column) => (
-              <StyledTableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
+              <StyledTableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
                 {column.label}
               </StyledTableCell>
             ))}
@@ -63,9 +58,9 @@ export default function ParkginglotTable() {
           <TableBody>
             {rows.map((data, i) => (
               <TableRow key={data.id}>
-                <TableCell>{data.keyNumber}</TableCell>
-                <TableCell>{data.parkginglotName}</TableCell>
-                <StyledTableCell>{data.status}</StyledTableCell>
+                <StyledTableCell size="small">{data.keyNumber}</StyledTableCell>
+                <StyledTableCell size="small">{data.parkginglotName}</StyledTableCell>
+                <StyledTableCell size="small">{data.status}</StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -85,9 +85,10 @@ const ERROR = {
 const GRADIENTS = {
   primary: createGradient(PRIMARY.light, PRIMARY.main),
   info: createGradient(INFO.light, INFO.main),
-  success: createGradient(SUCCESS.light, SUCCESS.main),
+  success: createGradient(SUCCESS.light, SUCCESS.dark),
   warning: createGradient(WARNING.light, WARNING.main),
   error: createGradient(ERROR.light, ERROR.main),
+  violet: createGradient('#9E86FF', '#826AF9'),
 };
 
 const CHART_COLORS = {

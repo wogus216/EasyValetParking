@@ -10,28 +10,29 @@ import TableRow from '@mui/material/TableRow';
 import { Button, styled } from '@mui/material';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 100 },
-  { id: 'code', label: '상태요청', minWidth: 100 },
-  { id: 'button', label: '버튼', minWidth: 100 },
+  { id: 'name', label: 'Name', minWidth: 80 },
+  { id: 'code', label: '유형', minWidth: 80 },
+  { id: 'parkinglot', label: '구역', minWidth: 80 },
+  { id: 'button', label: '버튼', minWidth: 80 },
 ];
 
 const rows = [
-  { id: '0', carNumber: '1234', request: '출차' },
-  { id: '1', carNumber: '1234', request: '출차' },
-  { id: '2', carNumber: '1234', request: '외출' },
-  { id: '3', carNumber: '1234', request: '출차' },
-  { id: '4', carNumber: '8678', request: '외출' },
-  { id: '5', carNumber: '6788', request: '출차' },
-  { id: '6', carNumber: '6787', request: '외출' },
-  { id: '7', carNumber: '4564', request: '출차' },
-  { id: '8', carNumber: '1234', request: '외출' },
-  { id: '9', carNumber: '1234', request: '외출' },
-  { id: '10', carNumber: '1234', request: '외출' },
-  { id: '11', carNumber: '1234', request: '외출' },
-  { id: '12', carNumber: '1234', request: '외출' },
-  { id: '13', carNumber: '1234', request: '외출' },
-  { id: '14', carNumber: '1234', request: '외출' },
-  { id: '15', carNumber: '6789', request: '외출' },
+  { id: '0', carNumber: '1234', parkinglot: 'M', request: '출차' },
+  { id: '1', carNumber: '1234', parkinglot: 'M2', request: '출차' },
+  { id: '2', carNumber: '1234', parkinglot: 'IP', request: '외출' },
+  { id: '3', carNumber: '1234', parkinglot: 'B202', request: '출차' },
+  { id: '4', carNumber: '8678', parkinglot: 'B211', request: '외출' },
+  { id: '5', carNumber: '6788', parkinglot: 'B301', request: '출차' },
+  { id: '6', carNumber: '6787', parkinglot: 'B211', request: '외출' },
+  { id: '7', carNumber: '4564', parkinglot: 'B211', request: '출차' },
+  { id: '8', carNumber: '1234', parkinglot: 'B211', request: '외출' },
+  { id: '9', carNumber: '1234', parkinglot: 'M2', request: '외출' },
+  { id: '10', carNumber: '1234', parkinglot: 'H', request: '외출' },
+  { id: '11', carNumber: '1234', parkinglot: 'B251', request: '외출' },
+  { id: '12', carNumber: '1234', parkinglot: 'B111', request: '외출' },
+  { id: '13', carNumber: '1234', parkinglot: 'B311', request: '외출' },
+  { id: '14', carNumber: '1234', parkinglot: 'H', request: '외출' },
+  { id: '15', carNumber: '6789', parkinglot: 'M', request: '외출' },
 ];
 
 export default function ParkingStatusTable() {
@@ -49,19 +50,27 @@ export default function ParkingStatusTable() {
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      background: theme.palette.gradients.violet,
       color: theme.palette.common.white,
+      textAlign: 'center',
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
+      fontSize: 18,
+      textAlign: 'center',
+      backgroundColor: theme.palette.gradients.info,
     },
+  }));
+
+  const StyledButton = styled(Button)(({ theme }) => ({
+    background: theme.palette.gradients.error,
+    color: theme.palette.common.white,
   }));
 
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 300 }}>
         <Table>
-          <TableHead st>
+          <TableHead>
             {columns.map((column) => (
               <StyledTableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
                 {column.label}
@@ -72,11 +81,12 @@ export default function ParkingStatusTable() {
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data) => (
               <TableRow key={data.id}>
-                <TableCell>{data.carNumber}</TableCell>
-                <TableCell>{data.request}</TableCell>
-                <TableCell>
-                  <Button variant="contained">승인</Button>
-                </TableCell>
+                <StyledTableCell>{data.carNumber}</StyledTableCell>
+                <StyledTableCell>{data.request}</StyledTableCell>
+                <StyledTableCell>{data.parkinglot}</StyledTableCell>
+                <StyledTableCell>
+                  <StyledButton>승인</StyledButton>
+                </StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

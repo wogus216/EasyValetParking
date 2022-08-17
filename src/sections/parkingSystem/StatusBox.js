@@ -19,21 +19,17 @@ StatusBox.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function StatusBox({ color = 'primary', purpose, sx, ...other }) {
+export default function StatusBox({ purpose }) {
   return (
     <>
       <Card
         sx={{
           boxShadow: 0,
           textAlign: 'center',
-          color: (theme) => theme.palette[color].darker,
-          bgcolor: (theme) => theme.palette[color].lighter,
-          ...sx,
         }}
-        {...other}
       >
         {purpose === '주차구역' && <ParkginglotTable />}
-        {purpose !== '주차구역' && <ParkingStatusTable />}
+        {purpose !== '주차구역' && <ParkingStatusTable purpose="유형" />}
       </Card>
     </>
   );
