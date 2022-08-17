@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,33 +14,37 @@ const columns = [
   { id: 'button', label: '현재수', minWidth: 100 },
 ];
 
-const rows = [
-  { id: '0', carNumber: '1234', request: '출차' },
-  { id: '1', carNumber: '1234', request: '출차' },
-  { id: '2', carNumber: '1234', request: '외출' },
-  { id: '3', carNumber: '1234', request: '출차' },
-  { id: '4', carNumber: '8678', request: '외출' },
-  { id: '5', carNumber: '6788', request: '출차' },
-  { id: '6', carNumber: '6787', request: '외출' },
-  { id: '7', carNumber: '4564', request: '출차' },
-  { id: '8', carNumber: '1234', request: '외출' },
-  { id: '9', carNumber: '1234', request: '외출' },
-  { id: '10', carNumber: '1234', request: '외출' },
-  { id: '11', carNumber: '1234', request: '외출' },
-  { id: '12', carNumber: '1234', request: '외출' },
-  { id: '13', carNumber: '1234', request: '외출' },
-  { id: '14', carNumber: '1234', request: '외출' },
-  { id: '15', carNumber: '6789', request: '외출' },
-];
+// const rows = [
+//   { id: '0', keyNumber: '1', parkginglotName: 'M', status: 'M' },
+//   { id: '1', keyNumber: '2', parkginglotName: 'M2', status: 'M2' },
+//   { id: '2', keyNumber: 'B', parkginglotName: 'B', status: 'parkginglogStatus.B' },
+//   { id: '3', keyNumber: '3', parkginglotName: 'IP', status: 'parkginglogStatus.IP' },
+//   { id: '4', keyNumber: '4', parkginglotName: 'K', status: 'parkginglogStatus.K' },
+// ];
 
 export default function ParkginglotTable() {
+  const [parkginglogStatus, setparkginglogStatus] = useState({
+    M: 1,
+    M2: 2,
+    B: 5,
+    IP: 3,
+    K: 10,
+  });
+
+  const rows = [
+    { id: '0', keyNumber: '1', parkginglotName: 'M', status: parkginglogStatus.M },
+    { id: '1', keyNumber: '2', parkginglotName: 'M2', status: parkginglogStatus.M2 },
+    { id: '2', keyNumber: 'B', parkginglotName: 'B', status: parkginglogStatus.B },
+    { id: '3', keyNumber: '3', parkginglotName: 'IP', status: parkginglogStatus.IP },
+    { id: '4', keyNumber: '4', parkginglotName: 'K', status: parkginglogStatus.K },
+  ];
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
+      fontSize: 20,
     },
   }));
 
@@ -57,13 +61,13 @@ export default function ParkginglotTable() {
           </TableHead>
 
           <TableBody>
-            <TableRow>
-              <TableCell>ㄴㅇㄹ</TableCell>
-              <TableCell>ㄹㄴ</TableCell>
-              <TableCell>
-                <Button variant="contained">승인</Button>
-              </TableCell>
-            </TableRow>
+            {rows.map((data, i) => (
+              <TableRow key={data.id}>
+                <TableCell>{data.keyNumber}</TableCell>
+                <TableCell>{data.parkginglotName}</TableCell>
+                <StyledTableCell>{data.status}</StyledTableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

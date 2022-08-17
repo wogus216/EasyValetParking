@@ -48,9 +48,13 @@ export default function ParkingSystem() {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <Button size="large" variant="contained" color="error">
-              출차중지버튼
-            </Button>
+            <Grid container>
+              <Typography marginRight={10} variant="h5">
+                금일입차 : 50대
+              </Typography>
+              <Typography variant="h5">금일출차 : 25대</Typography>
+            </Grid>
+
             <StatusBox purpose="주차구역" />
           </Grid>
 
