@@ -11,7 +11,7 @@ import AccountPopover from './AccountPopover';
 import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
-
+const DRAWER_WIDTH = 105;
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
@@ -20,9 +20,9 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
   backdropFilter: 'blur(6px)',
   WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
   backgroundColor: alpha(theme.palette.background.default, 0.72),
-  // [theme.breakpoints.up('lg')]: {
-  //   width: `calc(100% - ${DRAWER_WIDTH + 1}px)`,
-  // },
+  [theme.breakpoints.up('lg')]: {
+    width: `calc(100% - ${DRAWER_WIDTH + 1}px)`,
+  },
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
@@ -49,7 +49,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         </IconButton>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3} textAlign="center">
             <Typography color="black" variant="h4">
               {fDateTime(new Date())}
             </Typography>

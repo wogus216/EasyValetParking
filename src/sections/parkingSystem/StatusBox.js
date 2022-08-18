@@ -29,7 +29,7 @@ export default function StatusBox({ purpose }) {
         }}
       >
         {purpose === '주차구역' && <ParkginglotTable />}
-        {purpose !== '주차구역' && <ParkingStatusTable purpose="유형" />}
+        {purpose !== '주차구역' && <ParkingStatusTable />}
       </Card>
     </>
   );

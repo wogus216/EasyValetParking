@@ -1,10 +1,12 @@
+import * as Yup from 'yup';
 import { faker } from '@faker-js/faker';
+// form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Button, Grid, Container, Typography } from '@mui/material';
-
-// funciton
-import { fDateTime } from 'src/utils/formatTime';
+import { Button, Grid, Container, Typography, Stack } from '@mui/material';
 
 // components
 import Page from 'src/components/Page';
@@ -15,18 +17,42 @@ import { StatusBox } from 'src/sections/parkingSystem';
 import {
   AppNewsUpdate,
   AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
   AppTrafficBySite,
   AppCurrentSubject,
   AppConversionRates,
   AppTasks,
 } from 'src/sections/@dashboard/app';
+import { FormProvider, RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
 export default function ParkingSystem() {
   const theme = useTheme();
+  const parkingTicketSchema = Yup.object().shape({
+    ticketNumber: Yup.string().required('번호를 입력해주세요'),
+    name: Yup.string(),
+    carNumber: Yup.string().required('차량번호를 입력해주세요').min(4, '4자리이상은 입력해주세요'),
+    parkinglotNumber: Yup.string().required('번호를 입력해주세요'),
+  });
+
+  const defaultValues = {
+    ticketNumber: '',
+    carNumber: '',
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(parkingTicketSchema),
+    defaultValues,
+  });
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
+  const onSubmit = async (data) => {
+    console.log('data', data);
+  };
 
   return (
     <Page title="ParkingSystem">
@@ -58,126 +84,61 @@ export default function ParkingSystem() {
             <StatusBox purpose="주차구역" />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
-              chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ]}
-              chartData={[
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+              sx={{
+                mt: 5,
+                ml: {
+                  xs: 10,
+                  md: 25,
                 },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ]}
-            />
-          </Grid>
+              }}
+            >
+              <Grid item xs={12} sm={6} md={2}>
+                <Typography variant="h5" mb={1}>
+                  티켓번호
+                </Typography>
+                <RHFTextField name="ticketNumber" label="티켓번호을 기입해주세요." />
+              </Grid>
+              <Grid item xs={12} sm={6} md={2}>
+                <Typography variant="h5" mb={1}>
+                  이름
+                </Typography>
+                <RHFTextField name="name" label="이름을 기입해주세요." />
+              </Grid>
+              <Grid item xs={12} sm={6} md={2}>
+                <Typography variant="h5" mb={1}>
+                  차량번호
+                </Typography>
+                <RHFTextField name="carNumber" label="차량번호을 기입해주세요." />
+              </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
-              title="Current Visits"
-              chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ]}
-              chartColors={[
-                theme.palette.primary.main,
-                theme.palette.chart.blue[0],
-                theme.palette.chart.violet[0],
-                theme.palette.chart.yellow[0],
-              ]}
-            />
-          </Grid>
+              <Grid item xs={12} sm={6} md={2}>
+                <Typography variant="h5" mb={1}>
+                  주차구역
+                </Typography>
+                <RHFTextField name="parkinglotNumber" label="주차구역을 기입해주세요." />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <Grid container mt={5}>
+                  <Button size="large" variant="contained" color="primary" sx={{ mr: 1 }}>
+                    입차
+                  </Button>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject
-              title="Current Subject"
-              chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
-              chartData={[
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-              ]}
-              chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="News Update"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
-            <AppOrderTimeline
-              title="Order Timeline"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
-              }))}
-            />
-          </Grid>
+                  <Button size="large" variant="contained" color="error" sx={{ mr: 1 }}>
+                    출차중지
+                  </Button>
+                  <Button size="large" variant="contained" color="success" sx={{ color: 'white' }}>
+                    마감
+                  </Button>
+                </Grid>
+              </Grid>
+            </Stack>
+          </FormProvider>
 
           <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite

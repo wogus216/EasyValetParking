@@ -33,7 +33,7 @@ export default function ParkginglotTable() {
   ];
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
+      background: theme.palette.gradients.violet,
       color: theme.palette.common.white,
       textAlign: 'center',
     },
