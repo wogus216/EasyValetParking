@@ -7,7 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Button, styled } from '@mui/material';
+import { styled } from '@mui/material';
+import { StyledButtonPrimary, StyledButtonError } from 'src/utils/styled';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 80 },
@@ -35,7 +36,7 @@ const rows = [
   { id: '15', carNumber: '6789', parkinglot: 'M', request: '외출' },
 ];
 
-export default function ParkingStatusTable() {
+export default function ParkingStatusTable({ btnText = '승인' }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
 
@@ -61,11 +62,6 @@ export default function ParkingStatusTable() {
     },
   }));
 
-  const StyledButton = styled(Button)(({ theme }) => ({
-    background: theme.palette.gradients.error,
-    color: theme.palette.common.white,
-  }));
-
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 300 }}>
@@ -85,7 +81,8 @@ export default function ParkingStatusTable() {
                 <StyledTableCell>{data.request}</StyledTableCell>
                 <StyledTableCell>{data.parkinglot}</StyledTableCell>
                 <StyledTableCell>
-                  <StyledButton>승인</StyledButton>
+                  <StyledButtonPrimary sx={{ mr: { md: 1 }, mb: { xs: 1, md: 0 } }}>{btnText}</StyledButtonPrimary>
+                  <StyledButtonError>취소</StyledButtonError>
                 </StyledTableCell>
               </TableRow>
             ))}

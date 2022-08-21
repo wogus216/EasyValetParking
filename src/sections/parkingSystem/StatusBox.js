@@ -19,7 +19,7 @@ StatusBox.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function StatusBox({ purpose }) {
+export default function StatusBox({ purpose, type }) {
   return (
     <>
       <Card
@@ -29,7 +29,9 @@ export default function StatusBox({ purpose }) {
         }}
       >
         {purpose === '주차구역' && <ParkginglotTable />}
-        {purpose !== '주차구역' && <ParkingStatusTable />}
+        {purpose !== '주차구역' && type === '요청' && <ParkingStatusTable />}
+        {purpose !== '주차구역' && type === '출차' && <ParkingStatusTable btnText="완료" />}
+        {purpose !== '주차구역' && type === '외출' && <ParkingStatusTable btnText="복귀" />}
       </Card>
     </>
   );

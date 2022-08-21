@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, Typography, Grid, Button, styled } from '@mui/material';
 import { FormProvider, RHFTextField } from 'src/components/hook-form';
+import { StyledButtonPrimary, StyledButtonSuccess, StyledButtonError } from 'src/utils/styled';
 
 const ButtonStyle = styled(Button)({
   width: 100,
@@ -77,16 +78,16 @@ const PakringForm = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Grid container mt={5}>
-            <ButtonStyle variant="contained" color="primary" sx={{ mr: 1 }}>
+            <StyledButtonPrimary width={100} height={50} sx={{ mr: 1 }}>
               입차
-            </ButtonStyle>
+            </StyledButtonPrimary>
 
-            <ButtonStyle variant="contained" color="error" sx={{ mr: 1 }}>
+            <StyledButtonError width={100} height={50} sx={{ mr: 1 }}>
               출차중지
-            </ButtonStyle>
-            <ButtonStyle variant="contained" color="success" sx={{ color: 'white' }}>
+            </StyledButtonError>
+            <StyledButtonSuccess width={100} height={50}>
               마감
-            </ButtonStyle>
+            </StyledButtonSuccess>
           </Grid>
         </Grid>
       </Stack>

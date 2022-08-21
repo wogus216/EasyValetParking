@@ -32,7 +32,7 @@ const ToggleSwitch = ({ show, setShow, tableName }) => {
 export default ToggleSwitch;
 
 ToggleSwitch.propTypes = {
-  show: PropTypes.bool,
+  show: PropTypes.object,
   setShow: PropTypes.bool,
   tableName: PropTypes.string,
 };
