@@ -31,12 +31,13 @@ import USERLIST from 'src/_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
+  { id: 'ticketNumber', label: '티켓번호', alignRight: false },
+  { id: 'name', label: '성함', alignRight: false },
+  { id: 'carNumber', label: '차량번호', alignRight: false },
+  { id: 'parkinglot', label: '주차구역', alignRight: false },
+  { id: 'enterTime', label: '입차시간', alignRight: false },
+  { id: 'outTime', label: '출차시간', alignRight: false },
+  { id: 'button', label: '버튼', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -70,7 +71,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const CarInfoTable = () => {
+const ParkingInfoTable = () => {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -81,7 +82,7 @@ const CarInfoTable = () => {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -149,7 +150,7 @@ const CarInfoTable = () => {
             />
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                const { id, name, role, status, company, isVerified } = row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
@@ -166,7 +167,6 @@ const CarInfoTable = () => {
                     </TableCell>
                     <TableCell component="th" scope="row" padding="none">
                       <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={name} src={avatarUrl} />
                         <Typography variant="subtitle2" noWrap>
                           {name}
                         </Typography>
@@ -220,4 +220,4 @@ const CarInfoTable = () => {
   );
 };
 
-export default CarInfoTable;
+export default ParkingInfoTable;

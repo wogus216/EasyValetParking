@@ -11,7 +11,7 @@ import { PakringForm, StatusBox } from 'src/sections/parkingSystem';
 
 import { AppTrafficBySitem, AppTasks, AppTrafficBySite } from 'src/sections/@dashboard/app';
 import ToggleSwitch from 'src/components/ToggleSwitch';
-import CarInfoTable from 'src/sections/parkingSystem/CarInfoTable';
+import CarInfoTable from 'src/sections/parkingSystem/ParkingInfoTable';
 
 // ----------------------------------------------------------------------
 

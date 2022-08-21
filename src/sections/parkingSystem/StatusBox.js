@@ -13,10 +13,8 @@ import { ParkingStatusTable, ParkginglotTable } from '.';
 // ----------------------------------------------------------------------
 
 StatusBox.propTypes = {
-  color: PropTypes.string,
   purpose: PropTypes.string,
-  total: PropTypes.number.isRequired,
-  sx: PropTypes.object,
+  type: PropTypes.string,
 };
 
 export default function StatusBox({ purpose, type }) {
