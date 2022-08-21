@@ -7,22 +7,18 @@ import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
   TableCell,
-  Container,
   Typography,
   TableContainer,
   TablePagination,
 } from '@mui/material';
 // components
-import Page from 'src/components/Page';
+
 import Label from 'src/components/Label';
 import Scrollbar from 'src/components/Scrollbar';
-import Iconify from 'src/components/Iconify';
 import SearchNotFound from 'src/components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashboard/user';
 // mock
@@ -37,6 +33,7 @@ const TABLE_HEAD = [
   { id: 'parkinglot', label: '주차구역', alignRight: false },
   { id: 'enterTime', label: '입차시간', alignRight: false },
   { id: 'outTime', label: '출차시간', alignRight: false },
+  { id: 'isOut', label: '출차여부', alignRight: false },
   { id: 'button', label: '버튼', alignRight: false },
 ];
 
@@ -81,6 +78,8 @@ const ParkingInfoTable = () => {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  const [filterTicketNumber, setTicketNumber] = useState('');
+  const [filterCarNumber, setCarNumber] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -124,7 +123,16 @@ const ParkingInfoTable = () => {
   };
 
   const handleFilterByName = (event) => {
+    console.log('event.target.value', event.target.value);
     setFilterName(event.target.value);
+  };
+  const handleFilterByTicketNumber = (event) => {
+    console.log('event.target.value', event.target.value);
+    setTicketNumber(event.target.value);
+  };
+  const handleFilterByCarNumber = (event) => {
+    console.log('event.target.value', event.target.value);
+    setCarNumber(event.target.value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
@@ -134,7 +142,15 @@ const ParkingInfoTable = () => {
   const isUserNotFound = filteredUsers.length === 0;
   return (
     <Card>
-      <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+      <UserListToolbar
+        numSelected={selected.length}
+        filterName={filterName}
+        filterTicketNumber={filterTicketNumber}
+        filterCarNumber={filterCarNumber}
+        onFilterName={handleFilterByName}
+        onFilterTicketNumber={handleFilterByTicketNumber}
+        onFilterCarNumber={handleFilterByCarNumber}
+      />
 
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
@@ -150,7 +166,7 @@ const ParkingInfoTable = () => {
             />
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const { id, name, role, status, company, isVerified } = row;
+                const { id, name, parkinglot, status, ticketNumber, carNumber, enterTime, outTime, isVerified } = row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
@@ -168,12 +184,15 @@ const ParkingInfoTable = () => {
                     <TableCell component="th" scope="row" padding="none">
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Typography variant="subtitle2" noWrap>
-                          {name}
+                          {ticketNumber}
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align="left">{company}</TableCell>
-                    <TableCell align="left">{role}</TableCell>
+                    <TableCell align="left">{name}</TableCell>
+                    <TableCell align="left">{carNumber}</TableCell>
+                    <TableCell align="left">{parkinglot}</TableCell>
+                    <TableCell align="left">{enterTime}</TableCell>
+                    <TableCell align="left">{outTime}</TableCell>
                     <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
                       <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>

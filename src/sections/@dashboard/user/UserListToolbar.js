@@ -32,15 +32,27 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 UserListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
+  filterTicketNumber: PropTypes.string,
+  filterCarNumber: PropTypes.string,
   onFilterName: PropTypes.func,
+  onFilterTicketNumber: PropTypes.func,
+  onFilterCarNumber: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({
+  numSelected,
+  filterName,
+  filterTicketNumber,
+  filterCarNumber,
+  onFilterName,
+  onFilterTicketNumber,
+  onFilterCarNumber,
+}) {
   return (
     <RootStyle
       sx={{
         ...(numSelected > 0 && {
-          color: 'primary.main',
+          color: 'error.main',
           bgcolor: 'primary.lighter',
         }),
       }}
@@ -50,16 +62,38 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
           {numSelected} selected
         </Typography>
       ) : (
-        <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search user..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-            </InputAdornment>
-          }
-        />
+        <>
+          <SearchStyle
+            value={filterTicketNumber}
+            onChange={onFilterTicketNumber}
+            placeholder="티켓번호검색"
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+              </InputAdornment>
+            }
+          />
+          <SearchStyle
+            value={filterCarNumber}
+            onChange={onFilterCarNumber}
+            placeholder="차량번호검색"
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+              </InputAdornment>
+            }
+          />
+          <SearchStyle
+            value={filterName}
+            onChange={onFilterName}
+            placeholder="이름검색"
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+              </InputAdornment>
+            }
+          />
+        </>
       )}
 
       {numSelected > 0 ? (
@@ -70,9 +104,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="ic:round-filter-list" />
-          </IconButton>
+          <IconButton>{/* <Iconify icon="ic:round-filter-list" /> */}</IconButton>
         </Tooltip>
       )}
     </RootStyle>

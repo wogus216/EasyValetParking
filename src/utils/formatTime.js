@@ -10,6 +10,10 @@ export function fDateTime(date) {
   return format(new Date(date), 'yy  MMM dd  HH:mm');
 }
 
+export function fNowTime(date) {
+  return format(new Date(date), 'dd  HH:mm');
+}
+
 export function fDateTimeSuffix(date) {
   return format(new Date(date), 'dd/MM/yyyy hh:mm p');
 }
