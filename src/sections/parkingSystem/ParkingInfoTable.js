@@ -123,15 +123,12 @@ const ParkingInfoTable = () => {
   };
 
   const handleFilterByName = (event) => {
-    console.log('event.target.value', event.target.value);
     setFilterName(event.target.value);
   };
   const handleFilterByTicketNumber = (event) => {
-    console.log('event.target.value', event.target.value);
     setTicketNumber(event.target.value);
   };
   const handleFilterByCarNumber = (event) => {
-    console.log('event.target.value', event.target.value);
     setCarNumber(event.target.value);
   };
 
@@ -182,7 +179,7 @@ const ParkingInfoTable = () => {
                       <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
                     </TableCell>
                     <TableCell component="th" scope="row" padding="none">
-                      <Stack direction="row" alignItems="center" spacing={2}>
+                      <Stack direction="row" alignItems="left" spacing={2}>
                         <Typography variant="subtitle2" noWrap>
                           {ticketNumber}
                         </Typography>

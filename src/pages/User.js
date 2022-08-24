@@ -80,6 +80,8 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
+  const [filterCarNumber, setFilterCarNumber] = useState('');
+  const [filterTicketNumber, setFilterTicketNumber] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -125,6 +127,12 @@ export default function User() {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
+  const handleFilterByCarNumber = (event) => {
+    setFilterCarNumber(event.target.value);
+  };
+  const handleFilterByTicketNumber = (event) => {
+    setFilterTicketNumber(event.target.value);
+  };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
@@ -145,7 +153,15 @@ export default function User() {
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+          <UserListToolbar
+            numSelected={selected.length}
+            filterName={filterName}
+            filterTicketNumber={filterTicketNumber}
+            filterCarNumber={filterCarNumber}
+            onFilterName={handleFilterByName}
+            onFilterTicketNumber={handleFilterByTicketNumber}
+            onFilterCarNumber={handleFilterByCarNumber}
+          />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -161,6 +177,7 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    console.log('filterUsers', filteredUsers);
                     const { id, name, role, status, company, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
