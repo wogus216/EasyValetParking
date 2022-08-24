@@ -7,6 +7,13 @@ export const StyledButtonPrimary = styled(Button)(({ theme, width, height }) => 
   height,
 }));
 
+export const StyledButtonInfo = styled(Button)(({ theme, width, height }) => ({
+  background: theme.palette.gradients.info,
+  color: theme.palette.common.white,
+  width,
+  height,
+}));
+
 export const StyledButtonSuccess = styled(Button)(({ theme, width, height }) => ({
   background: theme.palette.gradients.success,
   color: theme.palette.common.white,
