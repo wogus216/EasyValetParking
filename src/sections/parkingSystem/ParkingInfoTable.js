@@ -58,6 +58,7 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
+  console.log('query1', query);
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -65,7 +66,14 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    console.log('quer2', typeof query);
+    return filter(
+      array,
+      (_user) =>
+        _user.ticketNumber === Number(query) ||
+        _user.carNumber === Number(query) ||
+        _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -79,9 +87,7 @@ const ParkingInfoTable = () => {
 
   const [orderBy, setOrderBy] = useState('ticketNumber');
 
-  const [filterName, setFilterName] = useState('');
-  const [filterTicketNumber, setTicketNumber] = useState('');
-  const [filterCarNumber, setCarNumber] = useState('');
+  const [filterData, setFilterData] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -125,32 +131,18 @@ const ParkingInfoTable = () => {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-  const handleFilterByTicketNumber = (event) => {
-    setTicketNumber(event.target.value);
-  };
-  const handleFilterByCarNumber = (event) => {
-    setCarNumber(event.target.value);
+  const handleFilterData = (event) => {
+    setFilterData(event.target.value);
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterData);
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
     <Card>
-      <UserListToolbar
-        numSelected={selected.length}
-        filterName={filterName}
-        filterTicketNumber={filterTicketNumber}
-        filterCarNumber={filterCarNumber}
-        onFilterName={handleFilterByName}
-        onFilterTicketNumber={handleFilterByTicketNumber}
-        onFilterCarNumber={handleFilterByCarNumber}
-      />
+      <UserListToolbar numSelected={selected.length} filterData={filterData} onFilterData={handleFilterData} />
 
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
@@ -195,9 +187,6 @@ const ParkingInfoTable = () => {
                     <TableCell align="left">{outTime}</TableCell>
                     <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
-                      {/* <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                        {sentenceCase(status)}
-                      </Label> */}
                       <StyledButtonPrimary sx={{ mr: 1 }}>출차요청</StyledButtonPrimary>
                       <StyledButtonInfo>외출요청</StyledButtonInfo>
                     </TableCell>
@@ -219,7 +208,7 @@ const ParkingInfoTable = () => {
               <TableBody>
                 <TableRow>
                   <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                    <SearchNotFound searchQuery={filterName} />
+                    <SearchNotFound searchQuery={filterData} />
                   </TableCell>
                 </TableRow>
               </TableBody>
