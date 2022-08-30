@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+
 import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
@@ -5,6 +7,8 @@ import { Grid, Stack, AppBar, Toolbar, IconButton, Typography, Button } from '@m
 import { fDateTime } from 'src/utils/formatTime';
 // responsive
 import useResponsive from 'src/hooks/useResponsive';
+// api
+import { weatherData } from 'src/utils/api';
 // components
 import Iconify from '../../components/Iconify';
 //
@@ -42,7 +46,20 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
+  const [state, setState] = useState({
+    weather: '',
+    totalParkingCar: '',
+  });
   const mdUp = useResponsive('up', 'md');
+
+  useEffect(() => {
+    async function getWeather() {
+      const responseData = await weatherData();
+      console.log('responseData', responseData.weather[0].main);
+      setState({ ...state, weather: responseData.weather[0].main });
+    }
+    getWeather();
+  }, []);
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -61,7 +78,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             <>
               <Grid item md={4} textAlign="center">
                 <Typography color="black" variant="h4">
-                  날씨
+                  날씨 : {state.weather}
                 </Typography>
               </Grid>
 

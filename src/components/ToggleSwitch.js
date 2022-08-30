@@ -5,9 +5,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 const ToggleSwitch = ({ show, setShow, tableName }) => {
   const { showOutingTable, showParkinglotTable } = show;
-  console.log('show', show);
-  console.log('setShow', setShow);
-  console.log('tableName', tableName);
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = () => {
