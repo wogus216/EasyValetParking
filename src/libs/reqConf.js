@@ -1,7 +1,9 @@
 const weatherHost = process.env.REACT_APP_WEATHER_API;
 const weatherKey = process.env.REACT_APP_WEATHER_KEY;
+const host = process.env.REACT_APP_API_URL;
 export const urls = {
   weather: `${weatherHost}/data/2.5/weather?q=Seoul&appid=${weatherKey}`,
+  member: `${host}/member`,
 };
 
 // 파일 업로드 헤더

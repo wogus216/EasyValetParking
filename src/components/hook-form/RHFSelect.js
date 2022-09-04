@@ -10,6 +10,7 @@ RHFSelect.propTypes = {
 };
 
 export default function RHFSelect({ name, label, arr }) {
+  console.log('arr', arr);
   const { control } = useFormContext();
 
   return (
@@ -30,7 +31,7 @@ export default function RHFSelect({ name, label, arr }) {
             error={error}
           >
             {arr.map((data, i) => (
-              <MenuItem key={i} value={data}>
+              <MenuItem key={i} value={i}>
                 {data}
               </MenuItem>
             ))}

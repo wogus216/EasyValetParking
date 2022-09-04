@@ -8,6 +8,8 @@ import { Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // function
 import { nameReg, passwordReg } from 'src/utils/regEx';
+// hooks
+import useAuth from 'src/hooks/useAuth';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
@@ -16,6 +18,7 @@ import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const { register } = useAuth();
 
   const RegisterSchema = Yup.object().shape({
     nickName: Yup.string()
@@ -30,10 +33,10 @@ export default function RegisterForm() {
       .min(5, '비밀번호는 최소 5자리 이상입니다.'),
     passwordCheck: Yup.string()
       .required('비밀번호를 입력해주세요.')
-      .min(5, '비밀번호는 최소 5자리 이상입니다.')
-      .oneOf(['password'], '비밀번호가 일치하지 않습니다.'),
+      .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
+      .min(5, '비밀번호는 최소 5자리 이상입니다.'),
     department: Yup.string().required('부서를 선택해주세요.'),
-    hotel: Yup.string().required('호텔을 선택해주세요.'),
+    // hotel: Yup.string().required('호텔을 선택해주세요.'),
   });
 
   const defaultValues = {
@@ -57,6 +60,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     console.log('data', data);
+    await register(data);
   };
 
   return (
@@ -80,9 +84,23 @@ export default function RegisterForm() {
             ),
           }}
         />{' '}
-        <RHFTextField name="passwordCheck" label="비밀번호 확인" type={showPassword ? 'text' : 'password'} />
+        <RHFTextField
+          name="passwordCheck"
+          label="비밀번호 확인"
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
+                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />{' '}
         <RHFSelect name="department" label="부서선택" arr={['FS', 'FD', 'GSC', 'F&B', 'ETC']} />
-        <RHFSelect name="hotel" label="호텔선택" arr={['파크하얏트']} />
+        {/* 버전 1에서 사용 안함 */}
+        {/* <RHFSelect name="hotel" label="호텔선택" arr={['파크하얏트']} /> */}
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           회원가입
         </LoadingButton>

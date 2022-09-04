@@ -2,7 +2,7 @@
   "name": "@minimal/material-kit-react",
   "author": "minimals.cc",
   "licence": "MIT",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
@@ -55,6 +55,7 @@
     "change-case": "^4.1.2",
     "date-fns": "^2.28.0",
     "history": "^5.3.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",

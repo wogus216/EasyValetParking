@@ -21,6 +21,10 @@ const handlers = {
     const { user } = action.payload;
     return { ...state, isAuthenticated: true, user };
   },
+  REGISTER: (state, action) => {
+    const { user } = action.payload;
+    return { ...state, isAuthenticated: true, user };
+  },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -34,10 +38,6 @@ const AuthContext = createContext({
   postForgotPassword: () => Promise.resolve(),
 });
 
-AuthProvider.propTypes = {
-  children: PropTypes.node,
-};
-
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -46,13 +46,13 @@ const AuthProvider = ({ children }) => {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem('accessToken');
-        const remember = window.localStorage.getItem('remember');
+        // const remember = window.localStorage.getItem('remember');
 
         // 자동 로그인 문자열 변환(Boolean)
-        const rememberCheck = (() => remember === 'true')();
+        // const rememberCheck = (() => remember === 'true')();
 
-        if (accessToken && rememberCheck && isValidToken(accessToken)) {
-          setSession(accessToken, rememberCheck);
+        if (accessToken && isValidToken(accessToken)) {
+          setSession(accessToken);
           const user = getPayload(accessToken);
 
           dispatch({ type: 'INITIALIZE', payload: [{ isAuthenticated: true, user }] });
@@ -70,9 +70,9 @@ const AuthProvider = ({ children }) => {
 
   // 로그인
   const login = async (params) => {
-    const { email, password, remember } = params;
+    const { email, password } = params;
 
-    const url = `${urls.user}/login`;
+    const url = `${urls.user}/sign-in`;
     const body = { email, password };
     const config = jsonHeader();
 
@@ -81,13 +81,13 @@ const AuthProvider = ({ children }) => {
     const { jwt } = response.data.data;
     const user = getPayload(jwt);
 
-    setSession(jwt, remember);
+    setSession(jwt);
     dispatch({ type: 'LOGIN', payload: { user } });
   };
 
   // 회원 가입
   const register = async (params) => {
-    const url = `${urls.user}/register`;
+    const url = `${urls.user}`;
     const body = params;
     const config = jsonHeader();
 
@@ -111,24 +111,28 @@ const AuthProvider = ({ children }) => {
   };
 
   // 비밀번호 변경(인증 전)
-  const patchResetPassword = async (params) => {
-    const { password, passwordConfirm, token } = params;
-    const url = `${urls.user}/resetPassword`;
-    const body = { password, passwordConfirm };
-    const config = { headers: headers(token) };
-    console.log('body: ', body);
-    console.log('config: ', config);
+  // const patchResetPassword = async (params) => {
+  //   const { password, passwordConfirm, token } = params;
+  //   const url = `${urls.user}/resetPassword`;
+  //   const body = { password, passwordConfirm };
+  //   const config = { headers: headers(token) };
+  //   console.log('body: ', body);
+  //   console.log('config: ', config);
 
-    const response = await axios.patch(url, body, config);
-    console.log('response: ', response);
+  //   const response = await axios.patch(url, body, config);
+  //   console.log('response: ', response);
 
-    dispatch({ type: 'RESET_PASSWORD' });
-  };
+  //   dispatch({ type: 'RESET_PASSWORD' });
+  // };
 
   // 로그 아웃
   const logout = async () => {
     setSession(null, null);
     dispatch({ type: 'LOGOUT' });
+  };
+
+  AuthProvider.propTypes = {
+    children: PropTypes.node,
   };
 
   return (
