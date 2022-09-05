@@ -21,7 +21,7 @@ export default function RegisterForm() {
   const { register } = useAuth();
 
   const RegisterSchema = Yup.object().shape({
-    nickName: Yup.string()
+    nickname: Yup.string()
       .required('닉네임을 입력해주세요.')
       .matches(nameReg, { message: '한글또는 영어만 입력해주세요.' }),
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
@@ -40,7 +40,7 @@ export default function RegisterForm() {
   });
 
   const defaultValues = {
-    nickName: 'sancho',
+    nickname: 'sancho',
     email: 'test@nate.com',
     password: 'wo1cns23!',
     passwordCheck: 'wo1cns23!',
@@ -63,6 +63,7 @@ export default function RegisterForm() {
     try {
       await register(data);
     } catch (error) {
+      console.log('error', error);
       console.log('error', error.response);
     }
   };
@@ -71,7 +72,7 @@ export default function RegisterForm() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="nickName" label="닉네임(한글,영어 상관없습니다.)" />
+          <RHFTextField name="nickname" label="닉네임(한글,영어 상관없습니다.)" />
         </Stack>
         <RHFTextField name="email" label="Email address" />
         <RHFTextField

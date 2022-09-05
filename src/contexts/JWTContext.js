@@ -78,10 +78,11 @@ const AuthProvider = ({ children }) => {
 
     const response = await axios.post(url, body, config);
 
-    const { jwt } = response.data.data;
-    const user = getPayload(jwt);
-
-    setSession(jwt);
+    console.log('response', response.headers);
+    const { accesstoken } = response.headers;
+    const user = getPayload(accesstoken);
+    console.log('user', user);
+    setSession(accesstoken);
     dispatch({ type: 'LOGIN', payload: { user } });
   };
 
@@ -94,6 +95,7 @@ const AuthProvider = ({ children }) => {
     const config = jsonHeader();
 
     const response = await axios.post(url, body, config);
+    console.log('response', response);
     const { jwt } = response.data.data;
     const user = getPayload(jwt);
 

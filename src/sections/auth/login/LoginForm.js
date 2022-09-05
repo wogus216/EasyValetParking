@@ -14,11 +14,13 @@ import { passwordReg } from 'src/utils/regEx';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
+import useAuth from 'src/hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const { loginForm } = text;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +52,14 @@ export default function LoginForm() {
   } = methods;
 
   const onSubmit = async (data) => {
-    console.log('data', data);
+    const newData = { ...data, department: 1 };
+    console.log('data', newData);
+    try {
+      await login(newData);
+    } catch (error) {
+      console.log('error', error);
+      console.log('error', error.response);
+    }
   };
 
   return (
