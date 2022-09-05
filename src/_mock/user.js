@@ -9,6 +9,7 @@ const users = [...Array(24)].map((_, index) => ({
   id: faker.datatype.uuid(),
   // avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
   name: faker.name.lastName() + faker.name.firstName(),
+  email: faker.internet.email(),
   ticketNumber: faker.datatype.number(),
   carNumber: faker.datatype.number({ min: 1000, max: 9999 }),
   company: faker.company.companyName(),

@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
   const login = async (params) => {
     const { email, password } = params;
 
-    const url = `${urls.user}/sign-in`;
+    const url = `${urls.member}/sign-in`;
     const body = { email, password };
     const config = jsonHeader();
 
@@ -87,7 +87,9 @@ const AuthProvider = ({ children }) => {
 
   // 회원 가입
   const register = async (params) => {
-    const url = `${urls.user}`;
+    console.log('params', params);
+    console.log('urls.member', urls.member);
+    const url = 'http://101.101.219.176:8080/member';
     const body = params;
     const config = jsonHeader();
 

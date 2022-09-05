@@ -7,7 +7,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'parkingSystem',
+    title: '주차시스템',
     path: '/dashboard/parking-system',
     icon: getIcon('ic:outline-local-parking'),
   },
@@ -17,7 +17,7 @@ const navConfig = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'user',
+    title: '사용자관리',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
   },
@@ -37,12 +37,12 @@ const navConfig = [
     icon: getIcon('eva:lock-fill'),
   },
   {
-    title: 'register',
+    title: '회원가입',
     path: '/register',
     icon: getIcon('eva:person-add-fill'),
   },
   {
-    title: 'vipRegister',
+    title: 'VIP등록',
     path: '/vip-register',
     icon: getIcon('eva:person-add-fill'),
   },

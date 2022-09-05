@@ -19,6 +19,7 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
+import { StyledButtonError, StyledButtonPrimary } from 'src/utils/styled';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -31,11 +32,11 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'nickName', label: '닉네임', alignRight: false },
+  { id: 'email', label: '이메일', alignRight: false },
+  { id: 'department', label: '부서', alignRight: false },
+  { id: 'isVerified', label: '승인여부', alignRight: false },
+  { id: 'button', label: '버튼', alignRight: false },
   { id: '' },
 ];
 
@@ -80,8 +81,6 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [filterName, setFilterName] = useState('');
-  const [filterCarNumber, setFilterCarNumber] = useState('');
-  const [filterTicketNumber, setFilterTicketNumber] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -127,12 +126,6 @@ export default function User() {
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
   };
-  const handleFilterByCarNumber = (event) => {
-    setFilterCarNumber(event.target.value);
-  };
-  const handleFilterByTicketNumber = (event) => {
-    setFilterTicketNumber(event.target.value);
-  };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
@@ -145,23 +138,12 @@ export default function User() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            사용자 관리
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            filterTicketNumber={filterTicketNumber}
-            filterCarNumber={filterCarNumber}
-            onFilterName={handleFilterByName}
-            onFilterTicketNumber={handleFilterByTicketNumber}
-            onFilterCarNumber={handleFilterByCarNumber}
-          />
+          <UserListToolbar numSelected={selected.length} filterData={filterName} onFilterData={handleFilterByName} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -178,7 +160,7 @@ export default function User() {
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     console.log('filterUsers', filteredUsers);
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name, role, email, company, avatarUrl, isVerified } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -201,13 +183,12 @@ export default function User() {
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{role}</TableCell>
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label>
+                          <StyledButtonPrimary sx={{ mr: 1 }}>승인</StyledButtonPrimary>
+                          <StyledButtonError>취소</StyledButtonError>
                         </TableCell>
 
                         <TableCell align="right">

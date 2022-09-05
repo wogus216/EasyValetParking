@@ -40,12 +40,12 @@ export default function RegisterForm() {
   });
 
   const defaultValues = {
-    nickName: '',
-    email: '',
-    password: '',
-    passwordCheck: '',
-    department: '',
-    hotel: '',
+    nickName: 'sancho',
+    email: 'test@nate.com',
+    password: 'wo1cns23!',
+    passwordCheck: 'wo1cns23!',
+    department: '0',
+    // hotel: '',
   };
 
   const methods = useForm({
@@ -60,7 +60,11 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     console.log('data', data);
-    await register(data);
+    try {
+      await register(data);
+    } catch (error) {
+      console.log('error', error.response);
+    }
   };
 
   return (

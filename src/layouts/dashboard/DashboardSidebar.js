@@ -42,7 +42,6 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
