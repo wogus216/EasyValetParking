@@ -52,10 +52,11 @@ export default function LoginForm() {
   } = methods;
 
   const onSubmit = async (data) => {
-    const newData = { ...data, department: 1 };
+    const newData = { ...data, department: 0 };
     console.log('data', newData);
     try {
       await login(newData);
+      navigate('/');
     } catch (error) {
       console.log('error', error);
       console.log('error', error.response);

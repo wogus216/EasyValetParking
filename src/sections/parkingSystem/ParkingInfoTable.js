@@ -24,7 +24,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashb
 // mock
 import USERLIST from 'src/_mock/user';
 import { StyledButtonPrimary, StyledButtonInfo } from 'src/utils/styled';
-
+import { fNowTime } from 'src/utils/formatTime';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -36,6 +36,17 @@ const TABLE_HEAD = [
   { id: 'outTime', label: '출차시간', alignRight: false },
   { id: 'isOut', label: '출차여부', alignRight: false },
   { id: 'button', label: '버튼', alignRight: false },
+];
+
+const parkingData = [
+  {
+    ticketNumber: 1234,
+    name: '권재현',
+    carNumber: 1234,
+    enterTime: fNowTime(new Date()),
+    outTime: fNowTime(new Date()),
+    isVerified: 'Yes',
+  },
 ];
 
 // ----------------------------------------------------------------------
@@ -91,6 +102,17 @@ const ParkingInfoTable = () => {
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const [parkingData, setParkingData] = useState([
+    {
+      ticketNumber: 1234,
+      name: '권재현',
+      carNumber: 1234,
+      enterTime: fNowTime(new Date()),
+      outTime: fNowTime(new Date()),
+      isVerified: 'Yes',
+    },
+  ]);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -137,7 +159,7 @@ const ParkingInfoTable = () => {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterData);
+  const filteredUsers = applySortFilter(parkingData, getComparator(order, orderBy), filterData);
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
