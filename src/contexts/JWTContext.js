@@ -86,6 +86,13 @@ const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN', payload: { user } });
   };
 
+  // 이메일 중복체크
+  const emailCheck = async (params) => {
+    const url = `${urls.member}/${params}`;
+    const config = jsonHeader();
+    const response = await axios.get(url, config);
+  };
+
   // 회원 가입
   const register = async (params) => {
     console.log('params', params);

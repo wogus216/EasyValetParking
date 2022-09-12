@@ -38,17 +38,8 @@ const getPayload = (accessToken) => {
     email: payload?.email,
     photoURL: payload?.photoURL,
     phoneNumber: payload?.phoneNumber,
-    country: payload?.country,
-    facebookLink: payload?.facebookLink,
-    instagramLink: payload?.instagramLink,
-    linkedinLink: payload?.linkedinLink,
-    twitterLink: payload?.twitterLink,
     moto: payload?.moto,
     jobTitle: payload?.jobTitle,
-    ultimateVision: payload?.ultimateVision,
-    about: payload?.about,
-    mentor: payload?.mentor,
-    mentee: payload?.mentee,
   };
 };
 

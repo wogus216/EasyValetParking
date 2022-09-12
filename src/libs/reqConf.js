@@ -3,8 +3,12 @@ const weatherKey = process.env.REACT_APP_WEATHER_KEY;
 const host = process.env.REACT_APP_API_URL;
 console.log('host', host);
 export const urls = {
+  // 날씨
   weather: `${weatherHost}/data/2.5/weather?q=Seoul&appid=${weatherKey}`,
+  // 회원가입, 수정,삭제,조회는 뒤에 {id} 붙이기 로그인은 sign-in
   member: `${host}/member`,
+  // 회원조회
+  getMembers: `${host}/users`,
 };
 
 // 파일 업로드 헤더

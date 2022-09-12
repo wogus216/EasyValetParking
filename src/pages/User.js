@@ -1,6 +1,6 @@
-import { filter } from 'lodash';
+import { filter, set } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -20,6 +20,10 @@ import {
 } from '@mui/material';
 // components
 import { StyledButtonError, StyledButtonPrimary } from 'src/utils/styled';
+// api
+import { getAllMembers } from 'src/utils/api';
+// function
+import { departmentName } from 'src/utils/function';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
@@ -27,12 +31,12 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
+// import USERLIST from '../_mock/user';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'nickName', label: '닉네임', alignRight: false },
+  { id: 'nickname', label: '닉네임', alignRight: false },
   { id: 'email', label: '이메일', alignRight: false },
   { id: 'department', label: '부서', alignRight: false },
   { id: 'isVerified', label: '승인여부', alignRight: false },
@@ -66,7 +70,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.nickname.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -83,6 +87,10 @@ export default function User() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [userList, setUserList] = useState('');
+
+  const USERLIST = [...userList];
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -133,6 +141,16 @@ export default function User() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  useEffect(() => {
+    async function getMembers() {
+      const userData = await getAllMembers();
+      console.log('userData', userData);
+      setUserList(userData);
+    }
+    getMembers();
+  }, []);
+  console.log('userList', userList);
+
   return (
     <Page title="User">
       <Container>
@@ -160,8 +178,8 @@ export default function User() {
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     console.log('filterUsers', filteredUsers);
-                    const { id, name, role, email, company, avatarUrl, isVerified } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const { id, nickname, email, department, avatarUrl, isVerified } = row;
+                    const isItemSelected = selected.indexOf(nickname) !== -1;
 
                     return (
                       <TableRow
@@ -173,18 +191,18 @@ export default function User() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, nickname)} />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={nickname} src={avatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {nickname}
                             </Typography>
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{email}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{departmentName(department)}</TableCell>
                         <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="left">
                           <StyledButtonPrimary sx={{ mr: 1 }}>승인</StyledButtonPrimary>
