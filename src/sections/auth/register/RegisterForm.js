@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Button } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Button, Alert, Modal, Dialog, Slide } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // function
 import { nameReg, passwordReg } from 'src/utils/regEx';
@@ -21,6 +21,7 @@ import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -57,20 +58,32 @@ export default function RegisterForm() {
 
   const {
     handleSubmit,
+    getValues,
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async (data) => {
-    console.log('data', data);
+  const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+
+  const handleClose = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleEmailCheck = async () => {
+    const email = getValues('email');
+    console.log('email', email);
 
     try {
-      await emailCheck('test12345@gmail.com');
-      // eslint-disable-next-line no-alert
-      alert('해당 이메일로 가입 가능합니다.');
+      await emailCheck('test12345@gm.com');
+      setOpen((prev) => !prev);
     } catch (error) {
       // eslint-disable-next-line no-alert
       alert('중복 이메일입니다.');
     }
+  };
+
+  const onSubmit = async (data) => {
+    console.log('data', data);
+
     try {
       await register(data);
     } catch (error) {
@@ -87,9 +100,29 @@ export default function RegisterForm() {
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }}>
           <RHFTextField name="email" label="Email address" />
-          <Button sx={{ padding: 0 }} onClick={emailCheck}>
+          <Button sx={{ padding: 0 }} onClick={handleEmailCheck}>
             중복체크
           </Button>
+          <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <Iconify icon="ep:close" />
+            </IconButton>
+            <Alert severity="success">해당 이메일로 가입 가능합니다</Alert>
+          </Dialog>
         </Stack>
         <RHFTextField
           name="password"
