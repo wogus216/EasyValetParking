@@ -56,7 +56,7 @@ export default function LoginForm() {
     console.log('data', newData);
     try {
       await login(newData);
-      navigate('/');
+      // navigate('/');
     } catch (error) {
       console.log('error', error);
       console.log('error', error.response);

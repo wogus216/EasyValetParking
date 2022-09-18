@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // function
 import { nameReg, passwordReg } from 'src/utils/regEx';
 // hooks
 import useAuth from 'src/hooks/useAuth';
+// api
+import { emailCheck } from 'src/utils/api';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
@@ -44,7 +46,7 @@ export default function RegisterForm() {
     email: 'test@nate.com',
     password: 'wo1cns23!',
     passwordCheck: 'wo1cns23!',
-    department: '0',
+    department: 2,
     // hotel: '',
   };
 
@@ -60,6 +62,15 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     console.log('data', data);
+
+    try {
+      await emailCheck('test12345@gmail.com');
+      // eslint-disable-next-line no-alert
+      alert('해당 이메일로 가입 가능합니다.');
+    } catch (error) {
+      // eslint-disable-next-line no-alert
+      alert('중복 이메일입니다.');
+    }
     try {
       await register(data);
     } catch (error) {
@@ -74,7 +85,12 @@ export default function RegisterForm() {
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="nickname" label="닉네임(한글,영어 상관없습니다.)" />
         </Stack>
-        <RHFTextField name="email" label="Email address" />
+        <Stack direction={{ xs: 'column', sm: 'row' }}>
+          <RHFTextField name="email" label="Email address" />
+          <Button sx={{ padding: 0 }} onClick={emailCheck}>
+            중복체크
+          </Button>
+        </Stack>
         <RHFTextField
           name="password"
           label="문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요."

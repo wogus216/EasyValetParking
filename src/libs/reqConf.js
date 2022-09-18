@@ -34,6 +34,13 @@ export const headers = (token) => ({
   Authorization: `Bearer ${token}`,
 });
 
+// jwt 헤더
+
+export const accessTokenHeaders = (token) => ({
+  'Content-Type': 'application/json',
+  ACCESSTOKEN: token,
+});
+
 // 파일 업로드 폼데이터 변환
 export const objectToFormData = (object) => {
   const formData = new FormData();

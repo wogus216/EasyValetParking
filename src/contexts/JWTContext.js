@@ -3,7 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { getPayload, isValidToken, setSession } from 'src/utils/jwt';
 
-import { urls, jsonHeader, headers } from 'src/libs/reqConf';
+import { urls, jsonHeader } from 'src/libs/reqConf';
 
 // 초기값
 const initialState = {
@@ -86,28 +86,18 @@ const AuthProvider = ({ children }) => {
     dispatch({ type: 'LOGIN', payload: { user } });
   };
 
-  // 이메일 중복체크
-  const emailCheck = async (params) => {
-    const url = `${urls.member}/${params}`;
-    const config = jsonHeader();
-    const response = await axios.get(url, config);
-  };
-
   // 회원 가입
   const register = async (params) => {
     console.log('params', params);
     console.log('urls.member', urls.member);
-    const url = 'http://101.101.219.176:8080/member';
+    const url = urls.member;
     const body = params;
     const config = jsonHeader();
 
     const response = await axios.post(url, body, config);
-    console.log('response', response);
-    const { jwt } = response.data.data;
-    const user = getPayload(jwt);
+    console.log('response', response.data);
 
-    setSession(jwt, true);
-    dispatch({ type: 'REGISTER', payload: { user } });
+    // dispatch({ type: 'REGISTER', payload: { user } });
   };
 
   // 비밀번호 유실
