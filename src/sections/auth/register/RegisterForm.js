@@ -9,7 +9,8 @@ import { LoadingButton } from '@mui/lab';
 // function
 import { nameReg, passwordReg } from 'src/utils/regEx';
 // hooks
-import useAuth from 'src/hooks/useAuth';
+import { useAuth } from 'src/hooks/useAuth';
+
 // api
 import { emailCheck } from 'src/utils/api';
 // components

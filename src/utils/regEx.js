@@ -6,3 +6,5 @@ export const passwordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%
 export const numberReg = /^[0-9]+$/;
 // 대문자만
 export const capitalReg = /^[A-Z]+$/;
+
+export const fullCarNumberReg = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;

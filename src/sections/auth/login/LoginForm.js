@@ -14,7 +14,7 @@ import { passwordReg } from 'src/utils/regEx';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
-import useAuth from 'src/hooks/useAuth';
+import { useAuth } from 'src/hooks/useAuth';
 
 // ----------------------------------------------------------------------
 

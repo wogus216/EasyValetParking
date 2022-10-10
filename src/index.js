@@ -10,6 +10,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/JWTContext';
+import { SnackProvider } from './contexts/SnackBarContext';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,9 @@ root.render(
   <HelmetProvider>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <SnackProvider>
+          <App />
+        </SnackProvider>
       </AuthProvider>
     </BrowserRouter>
   </HelmetProvider>
