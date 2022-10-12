@@ -23,6 +23,7 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const [open, setOpen] = useState(false);
+  const [emailMent, setEmailMent] = useState('가입 가능한 이메일입니다.');
 
   const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -66,7 +67,7 @@ export default function RegisterForm() {
   const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
   const handleClose = () => {
-    setOpen((prev) => !prev);
+    setOpen(false);
   };
 
   const handleEmailCheck = async () => {
@@ -74,11 +75,14 @@ export default function RegisterForm() {
     console.log('email', email);
 
     try {
-      await emailCheck('test12345@gm.com');
-      setOpen((prev) => !prev);
+      const response = await emailCheck(email);
+      console.log('response===>', response);
+      setOpen(true);
+      if (response.data.data.status === 400) {
+        setEmailMent('이미 가입된 이메일입니다.');
+      }
     } catch (error) {
-      // eslint-disable-next-line no-alert
-      alert('중복 이메일입니다.');
+      console.log('error', error.response);
     }
   };
 
@@ -106,9 +110,10 @@ export default function RegisterForm() {
           </Button>
           <Dialog
             open={open}
-            TransitionComponent={Transition}
+            onClose={handleClose}
             keepMounted
             aria-describedby="alert-dialog-slide-description"
+            fullWidth="true"
           >
             <IconButton
               aria-label="close"
@@ -122,7 +127,7 @@ export default function RegisterForm() {
             >
               <Iconify icon="ep:close" />
             </IconButton>
-            <Alert severity="success">해당 이메일로 가입 가능합니다</Alert>
+            <Alert severity={emailMent === '가입 가능한 이메일입니다.' ? 'success' : 'error'}>{emailMent}</Alert>
           </Dialog>
         </Stack>
         <RHFTextField

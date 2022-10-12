@@ -16,7 +16,7 @@ const emailCheck = async (params) => {
   const url = `${urls.member}/${params}`;
   const config = jsonHeader();
   const response = await axios.get(url, config);
-  console.log('response', response.data);
+  return response;
 };
 
 // 전체 회원조회
