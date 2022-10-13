@@ -58,7 +58,6 @@ export default function LoginForm() {
       await login(newData);
       // navigate('/');
     } catch (error) {
-      console.log('error', error);
       console.log('error', error.response);
     }
   };

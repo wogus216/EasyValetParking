@@ -23,7 +23,10 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const [open, setOpen] = useState(false);
-  const [emailMent, setEmailMent] = useState('가입 가능한 이메일입니다.');
+  const [state, setState] = useState({
+    emailCheck: false,
+    emailMent: '',
+  });
 
   const RegisterSchema = Yup.object().shape({
     nickname: Yup.string()
@@ -64,8 +67,6 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const Transition = forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -74,26 +75,35 @@ export default function RegisterForm() {
     const email = getValues('email');
     console.log('email', email);
 
+    setOpen(true);
+
     try {
-      const response = await emailCheck(email);
+      const response = await emailCheck('asdfsd12f@nate.com');
       console.log('response===>', response);
-      setOpen(true);
+      if (response.data === '해당 이메일로 회원가입 가능') {
+        setState({ ...state, emailCheck: true, emailMent: '가입 가능한 이메일입니다.' });
+      }
       if (response.data.data.status === 400) {
-        setEmailMent('이미 가입된 이메일입니다.');
+        setState({ ...state, emailCheck: true, emailMent: '중복된 이메일입니다.' });
       }
     } catch (error) {
       console.log('error', error.response);
     }
   };
+  console.log('emailCheck==>', state);
 
   const onSubmit = async (data) => {
     console.log('data', data);
-
-    try {
-      await register(data);
-    } catch (error) {
-      console.log('error', error);
-      console.log('error', error.response);
+    if (state.emailCheck === false) {
+      setOpen(true);
+      setState({ ...state, emailMent: '이메일 중복체크 먼저 해주세요.' });
+    } else {
+      try {
+        await register(data);
+      } catch (error) {
+        console.log('error', error);
+        console.log('error', error.response);
+      }
     }
   };
 
@@ -113,7 +123,7 @@ export default function RegisterForm() {
             onClose={handleClose}
             keepMounted
             aria-describedby="alert-dialog-slide-description"
-            fullWidth="true"
+            fullWidth
           >
             <IconButton
               aria-label="close"
@@ -127,7 +137,8 @@ export default function RegisterForm() {
             >
               <Iconify icon="ep:close" />
             </IconButton>
-            <Alert severity={emailMent === '가입 가능한 이메일입니다.' ? 'success' : 'error'}>{emailMent}</Alert>
+            {state.emailCheck === true && <Alert severity="success">{state.emailMent}</Alert>}
+            {state.emailCheck === false && <Alert severity="error">{state.emailMent}</Alert>}
           </Dialog>
         </Stack>
         <RHFTextField
