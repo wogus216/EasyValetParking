@@ -9,10 +9,13 @@ import { LoadingButton } from '@mui/lab';
 // function
 import { nameReg, passwordReg } from 'src/utils/regEx';
 // hooks
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth, useSnack } from 'src/hooks/useAuth';
 
 // api
 import { emailCheck } from 'src/utils/api';
+// 스낵바
+import MySnackbar from 'src/components/Snackbar';
+import { useNavigate } from 'react-router-dom';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-form';
@@ -20,12 +23,17 @@ import { FormProvider, RHFSelect, RHFTextField } from '../../../components/hook-
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  const navigte = useNavigate();
+  const [snackOpen, actions] = useSnack();
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState({
     emailCheck: false,
+    emailSuccess: '',
     emailMent: '',
+    registerSuccess: false,
+    registerCheckMent: '회원가입에 성공했습니다.',
   });
 
   const RegisterSchema = Yup.object().shape({
@@ -33,12 +41,7 @@ export default function RegisterForm() {
       .required('닉네임을 입력해주세요.')
       .matches(nameReg, { message: '한글또는 영어만 입력해주세요.' }),
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
-    password: Yup.string()
-      .required('비밀번호를 입력해주세요.')
-      .matches(passwordReg, {
-        message: '문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요',
-      })
-      .min(5, '비밀번호는 최소 5자리 이상입니다.'),
+    password: Yup.string().required('비밀번호를 입력해주세요.').min(5, '비밀번호는 최소 5자리 이상입니다.'),
     passwordCheck: Yup.string()
       .required('비밀번호를 입력해주세요.')
       .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
@@ -48,11 +51,11 @@ export default function RegisterForm() {
   });
 
   const defaultValues = {
-    nickname: 'sancho',
-    email: 'test@nate.com',
-    password: 'wo1cns23!',
-    passwordCheck: 'wo1cns23!',
-    department: 2,
+    nickname: '',
+    email: '',
+    password: '',
+    passwordCheck: '',
+    department: '',
     // hotel: '',
   };
 
@@ -78,13 +81,13 @@ export default function RegisterForm() {
     setOpen(true);
 
     try {
-      const response = await emailCheck('asdfsd12f@nate.com');
+      const response = await emailCheck(email);
       console.log('response===>', response);
       if (response.data === '해당 이메일로 회원가입 가능') {
-        setState({ ...state, emailCheck: true, emailMent: '가입 가능한 이메일입니다.' });
+        setState({ ...state, emailCheck: true, emailMent: '가입 가능한 이메일입니다.', emailSuccess: true });
       }
       if (response.data.data.status === 400) {
-        setState({ ...state, emailCheck: true, emailMent: '중복된 이메일입니다.' });
+        setState({ ...state, emailCheck: true, emailMent: '중복된 이메일입니다.', emailSuccess: false });
       }
     } catch (error) {
       console.log('error', error.response);
@@ -99,7 +102,16 @@ export default function RegisterForm() {
       setState({ ...state, emailMent: '이메일 중복체크 먼저 해주세요.' });
     } else {
       try {
-        await register(data);
+        const response = await register(data);
+        console.log('response==>', response);
+        if (!response.success) {
+          setState({ ...state, registerCheckMent: '회원가입에 실패했습니다.' });
+        } else {
+          setState({ ...state, registerSuccess: true });
+        }
+
+        actions.handleOpen();
+        navigte('/login');
       } catch (error) {
         console.log('error', error);
         console.log('error', error.response);
@@ -109,6 +121,7 @@ export default function RegisterForm() {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <MySnackbar message={state.registerCheckMent} open={snackOpen} severity={state.registerSuccess} />
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="nickname" label="닉네임(한글,영어 상관없습니다.)" />
@@ -137,13 +150,13 @@ export default function RegisterForm() {
             >
               <Iconify icon="ep:close" />
             </IconButton>
-            {state.emailCheck === true && <Alert severity="success">{state.emailMent}</Alert>}
-            {state.emailCheck === false && <Alert severity="error">{state.emailMent}</Alert>}
+            {state.emailCheck && state.emailSuccess && <Alert severity="success">{state.emailMent}</Alert>}
+            {state.emailCheck && !state.emailSuccess && <Alert severity="error">{state.emailMent}</Alert>}
           </Dialog>
         </Stack>
         <RHFTextField
           name="password"
-          label="문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요."
+          label="최소 5자리를 입력해주세요."
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (

@@ -67,7 +67,7 @@ export default function Login() {
           <Logo />
 
           {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+            <Typography variant="body2" sx={{ mt: { md: -1 } }}>
               {login.ment1}
               <Link variant="subtitle2" component={RouterLink} to="/register">
                 {login.ment2}

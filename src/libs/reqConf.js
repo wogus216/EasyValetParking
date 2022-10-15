@@ -9,6 +9,8 @@ export const urls = {
   member: `${host}/member`,
   // 회원조회
   getMembers: `${host}/users`,
+  // 파킹 조회
+  getParkings: `${host}/parkings`,
 };
 
 // 파일 업로드 헤더
@@ -31,7 +33,7 @@ export const jsonHeader = () => ({
 
 export const headers = (token) => ({
   'Content-Type': 'application/json',
-  Authorization: `Bearer ${token}`,
+  ACCESSTOKEN: { token },
 });
 
 // jwt 헤더

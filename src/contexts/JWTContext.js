@@ -77,13 +77,13 @@ const AuthProvider = ({ children }) => {
     const config = jsonHeader();
 
     const response = await axios.post(url, body, config);
-
     console.log('response', response.headers);
     const { accesstoken } = response.headers;
     const user = getPayload(accesstoken);
     console.log('user', user);
     setSession(accesstoken);
     dispatch({ type: 'LOGIN', payload: { user } });
+    return response;
   };
 
   // 회원 가입
@@ -96,6 +96,7 @@ const AuthProvider = ({ children }) => {
 
     const response = await axios.post(url, body, config);
     console.log('response', response.data);
+    return response.data;
 
     // dispatch({ type: 'REGISTER', payload: { user } });
   };

@@ -14,7 +14,8 @@ import { passwordReg } from 'src/utils/regEx';
 // components
 import Iconify from 'src/components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
-import { useAuth } from 'src/hooks/useAuth';
+import { useAuth, useSnack } from 'src/hooks/useAuth';
+import MySnackbar from 'src/components/Snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -22,17 +23,17 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { loginForm } = text;
+  const [snackOpen, actions] = useSnack();
+  const [state, setState] = useState({
+    loginSuccess: false,
+    loginSuccessMent: '로그인 성공했습니다.',
+  });
 
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('올바른 이메일을 입력해주세요.').required('이메일을 입력해주세요'),
-    password: Yup.string()
-      .required('비밀번호를 입력해주세요.')
-      .matches(passwordReg, {
-        message: '문자,숫자,특수문자를 조합해 최소 5자리를 입력해주세요',
-      })
-      .min(5, '비밀번호는 최소 5자리 이상입니다.'),
+    password: Yup.string().required('비밀번호를 입력해주세요.').min(5, '비밀번호는 최소 5자리 이상입니다.'),
   });
 
   const defaultValues = {
@@ -55,8 +56,15 @@ export default function LoginForm() {
     const newData = { ...data, department: 0 };
     console.log('data', newData);
     try {
-      await login(newData);
-      // navigate('/');
+      const response = await login(newData);
+      console.log('response.data==>', response.data);
+      if (!response.data.success) {
+        setState({ ...state, loginSuccessMent: '로그인에 실패했습니다.' });
+      } else {
+        setState({ ...state, loginSuccess: true });
+      }
+      navigate('/dashboard/parking-system');
+      actions.handleOpen();
     } catch (error) {
       console.log('error', error.response);
     }
@@ -64,6 +72,7 @@ export default function LoginForm() {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <MySnackbar message={state.loginSuccessMent} open={snackOpen} severity={state.loginSuccess} />
       <Stack spacing={3}>
         <RHFTextField name="email" label="Email address" />
 
@@ -84,7 +93,7 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label={loginForm.ment1} />
+        {/* <RHFCheckbox name="remember" label={loginForm.ment1} /> */}
         <Link variant="subtitle2" underline="hover" to="/reset-password" component={RouterLink}>
           비밀번호 찾기
         </Link>

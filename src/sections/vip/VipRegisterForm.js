@@ -20,10 +20,10 @@ import { useSnack } from 'src/hooks/useAuth';
 
 export default function VipRegisterForm() {
   // snack
-  const [open, actions] = useSnack();
+  const [snackOpen, actions] = useSnack();
 
   // const actions = useSnack();
-  console.log('open==>', open);
+  console.log('open==>', snackOpen);
   console.log('actions==>', actions);
   const { vipRegister } = text;
   const RegisterSchema = Yup.object().shape({
@@ -65,7 +65,7 @@ export default function VipRegisterForm() {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <MySnackbar message="vip 등록이 완료됐습니다." open={open} />
+      <MySnackbar message="vip 등록이 완료됐습니다." snackOpen={snackOpen} />
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="name" label="이름을 기입해주세요." />
