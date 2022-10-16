@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
@@ -25,6 +25,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashb
 import USERLIST from 'src/_mock/user';
 import { StyledButtonPrimary, StyledButtonInfo } from 'src/utils/styled';
 import { fNowTime } from 'src/utils/formatTime';
+import { getParkings } from 'src/redux/slice/parking';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -112,6 +113,11 @@ const ParkingInfoTable = () => {
       isVerified: 'Yes',
     },
   ]);
+
+  useEffect(() => {
+    getParkings();
+    console.log('야호');
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

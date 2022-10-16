@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { urls, headers } from 'src/libs/reqConf';
+import { useDispatch } from 'react-redux';
+import { urls, headers, accessTokenHeaders } from 'src/libs/reqConf';
 
 const { createSlice } = require('@reduxjs/toolkit');
 
@@ -28,12 +29,17 @@ const slice = createSlice({
 });
 
 export const getParkings = async () => {
-  const url = urls.getParkings;
-  const config = { headers: headers(token) };
+  try {
+    const url = urls.getParkings;
+    // const url = '/parkings';
+    const config = { headers: accessTokenHeaders(token) };
 
-  const response = await axios.get(url, config);
-  console.log('response==>', response);
-  return response;
+    const response = await axios.get(url, config);
+    console.log('response==>', response);
+    // dispatch(slice.actions.getParkings())
+  } catch (error) {
+    console.log('에러메시지', error.response);
+  }
 };
 
 // reducer
