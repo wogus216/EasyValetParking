@@ -6,7 +6,7 @@ import { Card, Typography } from '@mui/material';
 import { fShortenNumber } from 'src/utils/formatNumber';
 // components
 import Iconify from 'src/components/Iconify';
-import { ParkingStatusTable, ParkginglotTable } from '.';
+import { ParkingStatusTable, ParkingAreaTable } from '.';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ export default function StatusBox({ purpose, type }) {
           textAlign: 'center',
         }}
       >
-        {purpose === '주차구역' && <ParkginglotTable />}
+        {purpose === '주차구역' && <ParkingAreaTable />}
         {purpose !== '주차구역' && type === '요청' && <ParkingStatusTable />}
         {purpose !== '주차구역' && type === '출차' && <ParkingStatusTable btnText="완료" />}
         {purpose !== '주차구역' && type === '외출' && <ParkingStatusTable btnText="복귀" />}

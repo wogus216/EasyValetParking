@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,7 +6,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, styled } from '@mui/material';
+import { styled } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { getParkingArea } from 'src/redux/slice/parking';
 
 const columns = [
   { id: 'name', label: '번호', minWidth: 100 },
@@ -14,22 +16,35 @@ const columns = [
   { id: 'button', label: '현재수', minWidth: 100 },
 ];
 
-export default function ParkginglotTable() {
-  const [parkginglogStatus, setparkginglogStatus] = useState({
-    M: 1,
-    M2: 2,
-    B: 5,
-    IP: 3,
-    K: 10,
+export default function ParkingAreaTable() {
+  const disPatch = useDispatch();
+  const { parkingArea } = useSelector((state) => state.parkings);
+  const [parkingAreaStatus, setParkingAreaStatus] = useState({
+    M: '',
+    M2: '',
+    B: '',
+    IP: '',
+    K: '',
   });
+  useEffect(() => {
+    disPatch(getParkingArea());
+    console.log('parkingArea==>', parkingArea[0].carCount);
+    setParkingAreaStatus({
+      M: parkingArea[0].carCount,
+      M2: parkingArea[1].carCount,
+      B: parkingArea[2].carCount,
+      IP: parkingArea[1].carCount,
+      K: parkingArea[1].carCount,
+    });
+  }, [disPatch]);
 
   const rows = [
-    { id: '0', keyNumber: '1', parkginglotName: 'M', status: parkginglogStatus.M },
-    { id: '1', keyNumber: '2', parkginglotName: 'M2', status: parkginglogStatus.M2 },
-    { id: '2', keyNumber: 'B', parkginglotName: 'B', status: parkginglogStatus.B },
-    { id: '4', keyNumber: '3', parkginglotName: 'IP', status: parkginglogStatus.IP },
-    { id: '3', keyNumber: '4', parkginglotName: 'H', status: parkginglogStatus.IP },
-    { id: '5', keyNumber: '5', parkginglotName: 'K', status: parkginglogStatus.K },
+    { id: '0', keyNumber: '1', parkginglotName: 'M', status: parkingAreaStatus.M },
+    { id: '1', keyNumber: '2', parkginglotName: 'M2', status: parkingAreaStatus.M2 },
+    { id: '2', keyNumber: 'B', parkginglotName: 'B', status: parkingAreaStatus.B },
+    { id: '4', keyNumber: '3', parkginglotName: 'IP', status: parkingAreaStatus.IP },
+    { id: '3', keyNumber: '4', parkginglotName: 'H', status: parkingAreaStatus.IP },
+    { id: '5', keyNumber: '5', parkginglotName: 'K', status: parkingAreaStatus.K },
   ];
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

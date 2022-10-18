@@ -101,14 +101,14 @@ const ParkingInfoTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [parkingData, setParkingData] = useState([
-    {
-      ticketNumber: 1234,
-      name: '권재현',
-      carNumber: 1234,
-      enterTime: fNowTime(new Date()),
-      outTime: fNowTime(new Date()),
-      isVerified: 'Yes',
-    },
+    // {
+    //   ticketNumber: 1234,
+    //   name: '권재현',
+    //   carNumber: 1234,
+    //   enterTime: fNowTime(new Date()),
+    //   outTime: fNowTime(new Date()),
+    //   isVerified: 'Yes',
+    // },
   ]);
   const dispatch = useDispatch();
   const { parkings } = useSelector((state) => state.parkings);
@@ -211,7 +211,7 @@ const ParkingInfoTable = () => {
                     <TableCell align="left">{carNumber}</TableCell>
                     <TableCell align="left">{parkingArea}</TableCell>
                     <TableCell align="left">{fNowTime(entranceAt)}</TableCell>
-                    <TableCell align="left">{exitAt}</TableCell>
+                    <TableCell align="left">{fNowTime(exitAt)}</TableCell>
                     <TableCell align="left">{status ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
                       <StyledButtonPrimary sx={{ mr: 1 }}>출차요청</StyledButtonPrimary>
