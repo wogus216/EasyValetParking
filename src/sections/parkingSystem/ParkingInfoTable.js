@@ -185,13 +185,13 @@ const ParkingInfoTable = () => {
             />
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const { id, vipName, parkingArea, ticketNumber, carNumber, entranceAt, exitAt, status } = row;
+                const { parkingId, vipName, parkingArea, ticketNumber, carNumber, entranceAt, exitAt, status } = row;
                 const isItemSelected = selected.indexOf(ticketNumber) !== -1;
 
                 return (
                   <TableRow
                     hover
-                    key={id}
+                    key={parkingId}
                     tabIndex={-1}
                     role="checkbox"
                     selected={isItemSelected}

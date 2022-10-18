@@ -7,6 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, Typography, Grid, Button, styled } from '@mui/material';
 import { FormProvider, RHFTextField } from 'src/components/hook-form';
 import { StyledButtonPrimary, StyledButtonSuccess, StyledButtonError } from 'src/utils/styled';
+import { parkingAreaConvert } from 'src/utils/function';
+import { numberReg } from 'src/utils/regEx';
+import { id } from 'date-fns/locale';
+import { useDispatch } from 'react-redux';
+import { postParkingTicket } from 'src/redux/slice/parking';
 
 const ButtonStyle = styled(Button)({
   width: 100,
@@ -15,16 +20,21 @@ const ButtonStyle = styled(Button)({
 });
 
 const PakringForm = () => {
+  const dispatch = useDispatch();
   const parkingTicketSchema = Yup.object().shape({
-    ticketNumber: Yup.string().required('번호를 입력해주세요'),
-    name: Yup.string(),
+    ticketNumber: Yup.string()
+      .required('번호를 입력해주세요')
+      .matches(numberReg, { message: '숫자만 입력가능합니다.' }),
+    customerName: Yup.string(),
     carNumber: Yup.string().required('차량번호를 입력해주세요').min(4, '4자리이상은 입력해주세요'),
-    parkinglotNumber: Yup.string().required('번호를 입력해주세요'),
+    parkingArea: Yup.string().required('번호를 입력해주세요'),
   });
 
   const defaultValues = {
     ticketNumber: '',
+    customerName: '',
     carNumber: '',
+    parkingArea: '',
   };
 
   const methods = useForm({
@@ -34,11 +44,21 @@ const PakringForm = () => {
 
   const {
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
     console.log('data', data);
+    const afterConvertParkingArea = parkingAreaConvert(data.parkingArea);
+    const newData = { ...data, parkingArea: afterConvertParkingArea };
+    if (!afterConvertParkingArea) {
+      setValue('parkingArea', '');
+      alert('주차구역을 다시입력해주세요 ');
+    } else {
+      console.log('newData==>', newData);
+      dispatch(postParkingTicket(newData));
+    }
   };
 
   return (
@@ -61,7 +81,7 @@ const PakringForm = () => {
           <Typography variant="h5" mb={1}>
             이름
           </Typography>
-          <RHFTextField name="name" label="이름을 기입해주세요." />
+          <RHFTextField name="customerName" label="이름을 기입해주세요." />
         </Grid>
         <Grid item xs={12} sm={6} md={2}>
           <Typography variant="h5" mb={1}>
@@ -74,11 +94,11 @@ const PakringForm = () => {
           <Typography variant="h5" mb={1}>
             주차구역
           </Typography>
-          <RHFTextField name="parkinglotNumber" label="주차구역을 기입해주세요." />
+          <RHFTextField name="parkingArea" label="주차구역을 기입해주세요." />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Grid container mt={5}>
-            <StyledButtonPrimary width={100} height={50} sx={{ mr: 1 }}>
+            <StyledButtonPrimary type="submit" width={100} height={50} sx={{ mr: 1 }}>
               입차
             </StyledButtonPrimary>
 
