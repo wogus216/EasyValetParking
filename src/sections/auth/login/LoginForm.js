@@ -57,17 +57,17 @@ export default function LoginForm() {
     console.log('data', newData);
     try {
       const response = await login(newData);
-      console.log('response.data==>', response.data);
-      if (!response.data.success) {
-        setState({ ...state, loginSuccessMent: '로그인에 실패했습니다.' });
-      } else {
-        setState({ ...state, loginSuccess: true });
-      }
+      console.log('response==>', response);
+
+      setState({ ...state, loginSuccess: true });
+
       navigate('/dashboard/parking-system');
-      actions.handleOpen();
     } catch (error) {
       console.log('error', error.response);
+
+      setState({ ...state, loginSuccessMent: '로그인에 실패했습니다.' });
     }
+    actions.handleOpen();
   };
 
   return (

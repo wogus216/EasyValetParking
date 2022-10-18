@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { urls, headers, accessTokenHeaders } from 'src/libs/reqConf';
 
 const { createSlice } = require('@reduxjs/toolkit');
@@ -21,29 +20,43 @@ const slice = createSlice({
     startLoading(state) {
       state.isLoading = true;
     },
-    getParkings(state, action) {
+    getParkingsSuccess(state, action) {
+      console.log('action.payload==>', action.payload);
       state.isLoading = false;
       state.parkings = action.payload;
     },
   },
 });
 
-export const getParkings = async () => {
-  try {
-    const url = urls.getParkings;
-    // const url = '/parkings';
-    const config = { headers: accessTokenHeaders(token) };
+// export const getParkings = async (dispatch) => {
+//   const url = urls.getParkings;
+//   const config = { headers: accessTokenHeaders(token) };
 
-    const response = await axios.get(url, config);
-    console.log('response==>', response);
-    // dispatch(slice.actions.getParkings())
-  } catch (error) {
-    console.log('에러메시지', error.response);
-  }
-};
+//   const response = await axios.get(url, config);
+//   const { data } = response.data.data;
+//   console.log('data==>', data);
+//   console.log('response==>', response);
+//   dispatch(slice.actions.getParkings(...data));
+// };
+
+export function getParkings() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    const url = urls.getParkings;
+    const config = { headers: accessTokenHeaders(token) };
+    try {
+      const response = await axios.get(url, config);
+      const { data } = response.data;
+      console.log('data==>', data);
+      console.log('response==>', response);
+      dispatch(slice.actions.getParkingsSuccess(data));
+    } catch (error) {
+      console.log('error==>', error.response);
+    }
+  };
+}
 
 // reducer
 export default slice.reducer;
 // actions
-// eslint-disable-next-line no-empty-pattern
-export const {} = slice.actions;
+export const parkingsActions = slice.actions;

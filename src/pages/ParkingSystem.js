@@ -9,7 +9,6 @@ import Iconify from 'src/components/Iconify';
 // sections
 import { PakringForm, StatusBox } from 'src/sections/parkingSystem';
 
-import { AppTrafficBySitem, AppTasks, AppTrafficBySite } from 'src/sections/@dashboard/app';
 import ToggleSwitch from 'src/components/ToggleSwitch';
 import CarInfoTable from 'src/sections/parkingSystem/ParkingInfoTable';
 
@@ -57,7 +56,7 @@ export default function ParkingSystem() {
             {show.showParkinglotTable && <StatusBox purpose="주차구역" />}
           </Grid>
 
-          <Grid item lg={12}>
+          <Grid item xs={12}>
             <CarInfoTable />
           </Grid>
         </Grid>

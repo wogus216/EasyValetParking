@@ -47,12 +47,14 @@ export default function ParkginglotTable() {
     <Paper sx={{ width: '100%' }}>
       <TableContainer sx={{ maxHeight: 300 }}>
         <Table>
-          <TableHead st>
-            {columns.map((column) => (
-              <StyledTableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
-                {column.label}
-              </StyledTableCell>
-            ))}
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <StyledTableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
+                  {column.label}
+                </StyledTableCell>
+              ))}
+            </TableRow>
           </TableHead>
 
           <TableBody>

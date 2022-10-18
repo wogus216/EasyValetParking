@@ -67,11 +67,13 @@ export default function ParkingStatusTable({ btnText = '승인' }) {
       <TableContainer sx={{ maxHeight: 300 }}>
         <Table>
           <TableHead>
-            {columns.map((column) => (
-              <StyledTableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
-                {column.label}
-              </StyledTableCell>
-            ))}
+            <TableRow>
+              {columns.map((column) => (
+                <StyledTableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }}>
+                  {column.label}
+                </StyledTableCell>
+              ))}
+            </TableRow>
           </TableHead>
 
           <TableBody>

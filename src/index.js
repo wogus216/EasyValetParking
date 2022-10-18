@@ -4,6 +4,8 @@ import 'simplebar/src/simplebar.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 //
 import App from './App';
@@ -11,6 +13,7 @@ import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/JWTContext';
 import { SnackProvider } from './contexts/SnackBarContext';
+import { store, persistor } from './redux/store';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +24,11 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <SnackProvider>
-          <App />
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <App />
+            </PersistGate>
+          </Provider>
         </SnackProvider>
       </AuthProvider>
     </BrowserRouter>

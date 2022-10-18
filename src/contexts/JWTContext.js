@@ -77,7 +77,7 @@ const AuthProvider = ({ children }) => {
     const config = jsonHeader();
 
     const response = await axios.post(url, body, config);
-    console.log('response===>', response);
+    console.log('response===>', response.data);
     const { accesstoken } = response.headers;
     const user = getPayload(accesstoken);
     console.log('user', user);

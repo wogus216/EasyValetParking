@@ -1,5 +1,5 @@
 import storage from 'redux-persist/lib/storage';
-import parkingReducer from './slice/parking';
+import parkingsReducer from './slice/parking';
 
 const { combineReducers } = require('@reduxjs/toolkit');
 
@@ -7,11 +7,11 @@ const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
-  whitelist: ['vmostart'],
+  whitelist: ['parkings'],
 };
 
 const rootReducer = combineReducers({
-  parking: parkingReducer,
+  parkings: parkingsReducer,
 });
 
 export { rootPersistConfig, rootReducer };

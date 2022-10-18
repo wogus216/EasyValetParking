@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import {
   Card,
@@ -26,6 +25,7 @@ import USERLIST from 'src/_mock/user';
 import { StyledButtonPrimary, StyledButtonInfo } from 'src/utils/styled';
 import { fNowTime } from 'src/utils/formatTime';
 import { getParkings } from 'src/redux/slice/parking';
+import { useDispatch, useSelector } from 'react-redux';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -63,14 +63,12 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  console.log('order', order);
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function applySortFilter(array, comparator, query) {
-  console.log('query1', query);
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -78,7 +76,6 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    console.log('quer2', typeof query);
     return filter(
       array,
       (_user) =>
@@ -113,11 +110,14 @@ const ParkingInfoTable = () => {
       isVerified: 'Yes',
     },
   ]);
+  const dispatch = useDispatch();
+  const { parkings } = useSelector((state) => state.parkings);
 
   useEffect(() => {
-    getParkings();
-    console.log('야호');
-  }, []);
+    dispatch(getParkings());
+    console.log('parkings2==>', parkings);
+    setParkingData([...parkings]);
+  }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -135,7 +135,6 @@ const ParkingInfoTable = () => {
   };
 
   const handleClick = (event, ticketNumber) => {
-    console.log('ticketNumber', ticketNumber);
     const selectedIndex = selected.indexOf(ticketNumber);
     let newSelected = [];
     if (selectedIndex === -1) {
@@ -186,7 +185,7 @@ const ParkingInfoTable = () => {
             />
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const { id, name, parkinglot, status, ticketNumber, carNumber, enterTime, outTime, isVerified } = row;
+                const { id, vipName, parkingArea, ticketNumber, carNumber, entranceAt, exitAt, status } = row;
                 const isItemSelected = selected.indexOf(ticketNumber) !== -1;
 
                 return (
@@ -208,12 +207,12 @@ const ParkingInfoTable = () => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align="left">{name}</TableCell>
+                    <TableCell align="left">{vipName}</TableCell>
                     <TableCell align="left">{carNumber}</TableCell>
-                    <TableCell align="left">{parkinglot}</TableCell>
-                    <TableCell align="left">{enterTime}</TableCell>
-                    <TableCell align="left">{outTime}</TableCell>
-                    <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                    <TableCell align="left">{parkingArea}</TableCell>
+                    <TableCell align="left">{fNowTime(entranceAt)}</TableCell>
+                    <TableCell align="left">{exitAt}</TableCell>
+                    <TableCell align="left">{status ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
                       <StyledButtonPrimary sx={{ mr: 1 }}>출차요청</StyledButtonPrimary>
                       <StyledButtonInfo>외출요청</StyledButtonInfo>

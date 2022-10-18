@@ -12,12 +12,12 @@ const ToggleSwitch = ({ show, setShow, tableName }) => {
     if (tableName === 'showOutingTable') {
       setShow((show) => ({
         ...show,
-        showOutingTable: !showOutingTable,
+        showOutingTable: Boolean(!showOutingTable),
       }));
     } else {
       setShow((show) => ({
         ...show,
-        showParkinglotTable: !showParkinglotTable,
+        showParkinglotTable: Boolean(!showParkinglotTable),
       }));
     }
   };
@@ -30,6 +30,6 @@ export default ToggleSwitch;
 
 ToggleSwitch.propTypes = {
   show: PropTypes.object,
-  setShow: PropTypes.bool,
+  setShow: PropTypes.func,
   tableName: PropTypes.string,
 };
