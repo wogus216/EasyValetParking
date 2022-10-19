@@ -4,14 +4,13 @@ import * as Yup from 'yup';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Stack, Typography, Grid, Button, styled } from '@mui/material';
+import { Stack, Typography, Grid, Button, styled, Autocomplete } from '@mui/material';
 import { FormProvider, RHFTextField } from 'src/components/hook-form';
 import { StyledButtonPrimary, StyledButtonSuccess, StyledButtonError } from 'src/utils/styled';
 import { parkingAreaConvert } from 'src/utils/function';
 import { numberReg } from 'src/utils/regEx';
-import { id } from 'date-fns/locale';
 import { useDispatch } from 'react-redux';
-import { postParkingTicket } from 'src/redux/slice/parking';
+import { getParkings, postParkingTicket } from 'src/redux/slice/parking';
 
 const ButtonStyle = styled(Button)({
   width: 100,
@@ -58,7 +57,12 @@ const PakringForm = () => {
     } else {
       console.log('newData==>', newData);
       dispatch(postParkingTicket(newData));
+      dispatch(getParkings());
     }
+  };
+
+  const vipNameSearch = async () => {
+    dispatch();
   };
 
   return (
@@ -81,7 +85,14 @@ const PakringForm = () => {
           <Typography variant="h5" mb={1}>
             이름
           </Typography>
-          <RHFTextField name="customerName" label="이름을 기입해주세요." />
+          <Autocomplete
+            id="customerName"
+            customerName
+            // options={top100Films().map((option) => option.title)}
+            renderInput={(params) => <RHFTextField {...params} name="customerName" label="이름을 기입해주세요." />}
+          />
+
+          {/* <RHFTextField name="customerName" label="이름을 기입해주세요." /> */}
         </Grid>
         <Grid item xs={12} sm={6} md={2}>
           <Typography variant="h5" mb={1}>
