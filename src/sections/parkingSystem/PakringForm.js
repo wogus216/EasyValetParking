@@ -14,8 +14,7 @@ import { getParkings, getVipName, postParkingTicket } from 'src/redux/slice/park
 
 const PakringForm = () => {
   const dispatch = useDispatch();
-  // const { vipData } = useSelector((state) => state.vipData);
-  // console.log('vipData==>', vipData);
+  const { vipData } = useSelector((state) => state.parkings);
   const parkingTicketSchema = Yup.object().shape({
     ticketNumber: Yup.string()
       .required('번호를 입력해주세요')
@@ -59,11 +58,17 @@ const PakringForm = () => {
 
   const vipNameSearch = async (e) => {
     console.log('value', e.target.value);
-    const tmp = e.target.value;
-    console.log('tmp==>', tmp.length);
-    if (tmp.length >= 3) {
+    const customerNameValue = e.target.value;
+    console.log('tmp==>', customerNameValue.length);
+    if (customerNameValue.length >= 3) {
       dispatch(getVipName(e.target.value));
+      console.log('vipData2==>', vipData);
+      // setValue('carNumber', vipData[0].car_number);
     }
+  };
+  const vipCarNumber = async (e) => {
+    console.log('value', e.target.value);
+    const carNumberValue = e.target.value;
   };
 
   return (

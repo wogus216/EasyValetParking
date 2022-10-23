@@ -42,6 +42,7 @@ const slice = createSlice({
       console.log('getVipNameSuccess action.payload==>', action.payload);
       state.isLoading = false;
       state.vipData = action.payload;
+      console.log('state.vipData1==>', state.vipData);
     },
   },
 });
