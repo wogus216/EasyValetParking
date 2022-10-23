@@ -4,22 +4,18 @@ import * as Yup from 'yup';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Stack, Typography, Grid, Button, styled, Autocomplete } from '@mui/material';
+import { Stack, Typography, Grid } from '@mui/material';
 import { FormProvider, RHFTextField } from 'src/components/hook-form';
 import { StyledButtonPrimary, StyledButtonSuccess, StyledButtonError } from 'src/utils/styled';
 import { parkingAreaConvert } from 'src/utils/function';
 import { numberReg } from 'src/utils/regEx';
-import { useDispatch } from 'react-redux';
-import { getParkings, postParkingTicket } from 'src/redux/slice/parking';
-
-const ButtonStyle = styled(Button)({
-  width: 100,
-  height: 50,
-  textAlign: 'center',
-});
+import { useDispatch, useSelector } from 'react-redux';
+import { getParkings, getVipName, postParkingTicket } from 'src/redux/slice/parking';
 
 const PakringForm = () => {
   const dispatch = useDispatch();
+  // const { vipData } = useSelector((state) => state.vipData);
+  // console.log('vipData==>', vipData);
   const parkingTicketSchema = Yup.object().shape({
     ticketNumber: Yup.string()
       .required('번호를 입력해주세요')
@@ -61,8 +57,13 @@ const PakringForm = () => {
     }
   };
 
-  const vipNameSearch = async () => {
-    dispatch();
+  const vipNameSearch = async (e) => {
+    console.log('value', e.target.value);
+    const tmp = e.target.value;
+    console.log('tmp==>', tmp.length);
+    if (tmp.length >= 3) {
+      dispatch(getVipName(e.target.value));
+    }
   };
 
   return (
@@ -85,14 +86,8 @@ const PakringForm = () => {
           <Typography variant="h5" mb={1}>
             이름
           </Typography>
-          <Autocomplete
-            id="customerName"
-            customerName
-            // options={top100Films().map((option) => option.title)}
-            renderInput={(params) => <RHFTextField {...params} name="customerName" label="이름을 기입해주세요." />}
-          />
 
-          {/* <RHFTextField name="customerName" label="이름을 기입해주세요." /> */}
+          <RHFTextField name="customerName" label="이름을 기입해주세요." onBlur={vipNameSearch} />
         </Grid>
         <Grid item xs={12} sm={6} md={2}>
           <Typography variant="h5" mb={1}>

@@ -14,6 +14,10 @@ export const urls = {
   // 파킹 조회
   // getParkings: `${host}/parkings`,
   getParkings: `/api/parkings`,
+  getParkingArea: '/api/parking-count',
+  postParkingTicket: '/api/ticket',
+  getVipName: '/api/vip/name',
+  getVipCarNumber: '/api/vip/car-number',
 };
 
 // 파일 업로드 헤더
