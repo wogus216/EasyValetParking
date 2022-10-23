@@ -1,4 +1,5 @@
 import axios from 'axios';
+import tr from 'date-fns/locale/tr';
 import { urls, headers, accessTokenHeaders } from 'src/libs/reqConf';
 
 const { createSlice } = require('@reduxjs/toolkit');
@@ -38,11 +39,11 @@ const slice = createSlice({
       state.isLoading = false;
       state.parkings = [...state.parkings, newParkingTicket];
     },
-    getVipNameSuccess(state, action) {
-      console.log('getVipNameSuccess action.payload==>', action.payload);
+    getVipDataSuccess(state, action) {
+      console.log('getVipDataSuccess action.payload==>', action.payload);
       state.isLoading = false;
       state.vipData = action.payload;
-      console.log('state.vipData1==>', state.vipData);
+      console.log('state.vipData==>', state.vipData);
     },
   },
 });
@@ -104,15 +105,27 @@ export const getVipName = (name) => async (dispatch) => {
   try {
     const response = await axios.get(url, config);
     const { data } = response.data;
-    console.log('getVipNameSuccess data==>', data.data);
-    dispatch(parkingsActions.getVipNameSuccess(data.data));
+    console.log('getVipDataSuccess data==>', data.data);
+    dispatch(parkingsActions.getVipDataSuccess(data.data));
   } catch (error) {
     console.log('error', error.response);
   }
 };
 
 // vip 차량번호로 조회
-export const getVipCarNumber = () => async (dispatch) => {};
+export const getVipCarNumber = (carNumber) => async (dispatch) => {
+  dispatch(parkingsActions.startLoading());
+  const url = `${urls.getVipCarNumber}/${carNumber}`;
+  const config = { headers: accessTokenHeaders(token) };
+  try {
+    const response = await axios.get(url, config);
+    const { data } = response.data;
+    console.log('getVipDataSuccess data==>', data.data);
+    dispatch(parkingsActions.getVipDataSuccess(data.data));
+  } catch (error) {
+    console.log('error', error.response);
+  }
+};
 
 // reducer
 export default slice.reducer;

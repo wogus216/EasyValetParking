@@ -24,7 +24,7 @@ import { StyledButtonPrimary, StyledButtonSuccess, StyledButtonError } from 'src
 import { parkingAreaConvert } from 'src/utils/function';
 import { numberReg } from 'src/utils/regEx';
 import { useDispatch, useSelector } from 'react-redux';
-import { getParkings, getVipName, postParkingTicket } from 'src/redux/slice/parking';
+import { getParkings, getVipCarNumber, getVipName, postParkingTicket } from 'src/redux/slice/parking';
 import Iconify from 'src/components/Iconify';
 import { set } from 'lodash';
 
@@ -80,19 +80,29 @@ const PakringForm = () => {
   const vipNameSearch = async (e) => {
     console.log('value', e.target.value);
     const customerNameValue = e.target.value;
-    console.log('tmp==>', customerNameValue.length);
+    console.log('customerNameValue==>', customerNameValue.length);
     if (customerNameValue.length >= 3) {
       dispatch(getVipName(e.target.value));
-      console.log('vipData2==>', vipData);
-      // setValue('carNumber', vipData[0].car_number);
+
       if (vipData.length > 1) {
         setDialogOpen(true);
+      } else {
+        setValue('carNumber', vipData[0].car_number);
       }
     }
   };
   const vipCarNumber = async (e) => {
     console.log('value', e.target.value);
     const carNumberValue = e.target.value;
+    if (carNumberValue.length >= 4) {
+      dispatch(getVipCarNumber(e.target.value));
+      console.log('vipData==>', vipData);
+      if (vipData.length > 1) {
+        setDialogOpen(true);
+      } else {
+        setValue('vipName', vipData[0].name);
+      }
+    }
   };
 
   const handleVipDataChoice = (vipData) => {
@@ -184,7 +194,7 @@ const PakringForm = () => {
           <Typography variant="h5" mb={1}>
             차량번호
           </Typography>
-          <RHFTextField name="carNumber" label="차량번호을 기입해주세요." />
+          <RHFTextField name="carNumber" label="차량번호을 기입해주세요." onBlur={vipCarNumber} />
         </Grid>
 
         <Grid item xs={12} sm={6} md={2}>
