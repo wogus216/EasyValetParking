@@ -1,13 +1,13 @@
 import * as Yup from 'yup';
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Button, Alert, Modal, Dialog, Slide } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Button, Alert, Dialog } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // function
-import { nameReg, passwordReg } from 'src/utils/regEx';
+import { nameReg } from 'src/utils/regEx';
 // hooks
 import { useAuth, useSnack } from 'src/hooks/useAuth';
 

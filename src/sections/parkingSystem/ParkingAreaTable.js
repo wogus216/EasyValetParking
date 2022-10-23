@@ -26,6 +26,7 @@ export default function ParkingAreaTable() {
     IP: '',
     K: '',
   });
+
   useEffect(() => {
     disPatch(getParkingArea());
     console.log('parkingArea==>', parkingArea[0].carCount);

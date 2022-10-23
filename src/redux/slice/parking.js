@@ -111,6 +111,9 @@ export const getVipName = (name) => async (dispatch) => {
   }
 };
 
+// vip 차량번호로 조회
+export const getVipCarNumber = () => async (dispatch) => {};
+
 // reducer
 export default slice.reducer;
 // actions
