@@ -115,7 +115,6 @@ const ParkingInfoTable = () => {
 
   useEffect(() => {
     dispatch(getParkings());
-    console.log('parkings2==>', parkings);
     setParkingData([...parkings]);
   }, [dispatch]);
 

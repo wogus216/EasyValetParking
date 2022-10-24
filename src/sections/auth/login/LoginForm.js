@@ -10,10 +10,10 @@ import { LoadingButton } from '@mui/lab';
 
 // text
 import text from 'src/utils/text';
-import { passwordReg } from 'src/utils/regEx';
+
 // components
 import Iconify from 'src/components/Iconify';
-import { FormProvider, RHFTextField, RHFCheckbox } from 'src/components/hook-form';
+import { FormProvider, RHFTextField } from 'src/components/hook-form';
 import { useAuth, useSnack } from 'src/hooks/useAuth';
 import MySnackbar from 'src/components/Snackbar';
 

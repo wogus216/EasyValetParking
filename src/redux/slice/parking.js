@@ -1,5 +1,6 @@
 import axios from 'axios';
 import tr from 'date-fns/locale/tr';
+import MySnackbar from 'src/components/Snackbar';
 import { urls, headers, accessTokenHeaders } from 'src/libs/reqConf';
 
 const { createSlice } = require('@reduxjs/toolkit');
@@ -71,7 +72,6 @@ export const getParkingArea = () => async (dispatch) => {
   const config = { headers: accessTokenHeaders(token) };
   try {
     const response = await axios.get(url, config);
-
     const { data } = response.data;
     console.log('getParkingArea data==>', data);
     dispatch(slice.actions.getParkingsAreaSuccess(data));
@@ -82,14 +82,24 @@ export const getParkingArea = () => async (dispatch) => {
 
 // 주차 티켓등록
 export const postParkingTicket = (parkingData) => async (dispatch) => {
+  console.log('parkingData-->', parkingData);
   dispatch(slice.actions.startLoading());
   const url = urls.postParkingTicket;
+  const body = parkingData;
   const config = { headers: accessTokenHeaders(token) };
   try {
-    const response = await axios.post(url, parkingData, config);
+    const response = await axios.post(url, body, config);
     const { data } = response.data;
-    console.log('postParkingTicket data==>', data.data);
-    dispatch(parkingsActions.postParkingTicketSuccess(...data.data));
+
+    console.log('postParkingTicket data==>', data);
+    if (data === '성공') {
+      dispatch(parkingsActions.postParkingTicketSuccess(parkingData));
+      dispatch(getParkingArea());
+      dispatch(getParkings());
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('입차에 실패했습니다., 티켓번호를 다시확인해주세요');
+    }
   } catch (error) {
     console.log('error', error.response);
   }

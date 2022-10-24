@@ -27,11 +27,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getParkings, getVipCarNumber, getVipName, postParkingTicket } from 'src/redux/slice/parking';
 import Iconify from 'src/components/Iconify';
 import { set } from 'lodash';
+import { useSnack } from 'src/hooks/useAuth';
 
 const PakringForm = () => {
   const dispatch = useDispatch();
   const { vipData } = useSelector((state) => state.parkings);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackOpen, actions] = useSnack();
   const parkingTicketSchema = Yup.object().shape({
     ticketNumber: Yup.string()
       .required('번호를 입력해주세요')
@@ -60,7 +62,6 @@ const PakringForm = () => {
   } = methods;
 
   const onSubmit = async (data) => {
-    console.log('data', data);
     const afterConvertParkingArea = parkingAreaConvert(data.parkingArea);
     const newData = { ...data, parkingArea: afterConvertParkingArea };
     if (!afterConvertParkingArea) {
@@ -69,8 +70,11 @@ const PakringForm = () => {
     } else {
       console.log('newData==>', newData);
       dispatch(postParkingTicket(newData));
-      dispatch(getParkings());
     }
+    setValue('vipName', '');
+    setValue('ticketNumber', '');
+    setValue('carNumber', '');
+    setValue('parkingArea', '');
   };
 
   const handleClose = () => {
