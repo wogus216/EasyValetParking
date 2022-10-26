@@ -11,14 +11,20 @@ import { PakringForm, StatusBox } from 'src/sections/parkingSystem';
 
 import ToggleSwitch from 'src/components/ToggleSwitch';
 import CarInfoTable from 'src/sections/parkingSystem/ParkingInfoTable';
+import { useSelector } from 'react-redux';
+import _, { filter } from 'lodash';
 
 // ----------------------------------------------------------------------
 
 export default function ParkingSystem() {
+  const { parkings } = useSelector((state) => state.parkings);
   const [show, setShow] = useState({
     showOutingTable: true,
     showParkinglotTable: true,
   });
+
+  // 오늘 출차차량
+  const exitedCar = _.filter(parkings, { exitAt: '9999-12-31 00:00:00' });
 
   return (
     <Page title="ParkingSystem">
@@ -46,10 +52,10 @@ export default function ParkingSystem() {
           <Grid item xs={12} sm={6} md={6}>
             <Grid container justifyContent="space-around" alignItems="center">
               <Typography marginLeft={1} variant="h5">
-                오늘입차 : 50대
+                오늘입차 : {parkings.length}대
               </Typography>
 
-              <Typography variant="h5">오늘출차 : 25대</Typography>
+              <Typography variant="h5">오늘출차 : {exitedCar.length}대</Typography>
               <ToggleSwitch show={show} setShow={setShow} tableName="showParkinglotTable" />
             </Grid>
 

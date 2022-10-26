@@ -39,16 +39,16 @@ const TABLE_HEAD = [
   { id: 'button', label: '버튼', alignRight: false },
 ];
 
-const parkingData = [
-  {
-    ticketNumber: 1234,
-    name: '권재현',
-    carNumber: 1234,
-    enterTime: fNowTime(new Date()),
-    outTime: fNowTime(new Date()),
-    isVerified: 'Yes',
-  },
-];
+// const parkingData = [
+//   {
+//     ticketNumber: 1234,
+//     name: '권재현',
+//     carNumber: 1234,
+//     enterTime: fNowTime(new Date()),
+//     outTime: fNowTime(new Date()),
+//     isVerified: 'Yes',
+//   },
+// ];
 
 // ----------------------------------------------------------------------
 

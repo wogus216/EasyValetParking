@@ -29,13 +29,14 @@ export default function ParkingAreaTable() {
 
   useEffect(() => {
     disPatch(getParkingArea());
-    console.log('parkingArea==>', parkingArea[0].carCount);
+    console.log('parkingArea==>', parkingArea);
     setParkingAreaStatus({
-      M: parkingArea[0].carCount,
-      M2: parkingArea[1].carCount,
-      B: parkingArea[2].carCount,
-      IP: parkingArea[1].carCount,
-      K: parkingArea[1].carCount,
+      M: parkingArea[4].carCount,
+      M2: parkingArea[6].carCount,
+      B: parkingArea[0].carCount,
+      H: parkingArea[1].carCount,
+      IP: parkingArea[2].carCount,
+      K: parkingArea[3].carCount,
     });
   }, [disPatch]);
 
