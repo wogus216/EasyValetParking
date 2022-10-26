@@ -18,6 +18,7 @@ export const urls = {
   postParkingTicket: '/api/ticket',
   getVipName: '/api/vip/name',
   getVipCarNumber: '/api/vip/car-number',
+  postExitParking: '/api/exit',
 };
 
 // 파일 업로드 헤더

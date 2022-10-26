@@ -22,10 +22,11 @@ import SearchNotFound from 'src/components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashboard/user';
 // mock
 
-import { StyledButtonPrimary, StyledButtonInfo } from 'src/utils/styled';
+import { StyledButtonPrimary, StyledButtonInfo, StyledButtonSuccess } from 'src/utils/styled';
 import { fNowTime } from 'src/utils/formatTime';
-import { getParkings } from 'src/redux/slice/parking';
+import { getParkings, postExitParking } from 'src/redux/slice/parking';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth } from 'src/hooks/useAuth';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -158,6 +159,13 @@ const ParkingInfoTable = () => {
     setFilterData(event.target.value);
   };
 
+  // 출차, 외출 요청
+  const handleExitParking = (ticketId, exitType) => {
+    console.log('exitParking data==>', ticketId);
+    console.log('exitParking exitType==>', exitType);
+    dispatch(postExitParking(ticketId, exitType));
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - parkings.length) : 0;
 
   const filteredUsers = applySortFilter(parkings, getComparator(order, orderBy), filterData);
@@ -181,7 +189,7 @@ const ParkingInfoTable = () => {
             />
             <TableBody>
               {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                const { parkingId, vipName, parkingArea, ticketNumber, carNumber, entranceAt, exitAt, status } = row;
+                const { parkingId, vipName, parkingArea, ticketNumber, carNumber, entranceAt, exitAt, carStatus } = row;
                 const isItemSelected = selected.indexOf(ticketNumber) !== -1;
 
                 return (
@@ -208,11 +216,28 @@ const ParkingInfoTable = () => {
                     <TableCell align="left">{parkingArea}</TableCell>
                     <TableCell align="left">{fNowTime(entranceAt)}</TableCell>
                     <TableCell align="left">{fNowTime(exitAt)}</TableCell>
-                    <TableCell align="left">{status ? 'Yes' : 'No'}</TableCell>
+                    <TableCell align="left">{carStatus ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
-                      <StyledButtonPrimary sx={{ mr: 1 }}>출차요청</StyledButtonPrimary>
-                      <StyledButtonInfo>외출요청</StyledButtonInfo>
+                      <StyledButtonPrimary
+                        sx={{ mr: 1 }}
+                        onClick={() => {
+                          handleExitParking(parkingId, 0);
+                        }}
+                      >
+                        출차요청
+                      </StyledButtonPrimary>
+                      <StyledButtonInfo
+                        onClick={() => {
+                          handleExitParking(parkingId, 1);
+                        }}
+                      >
+                        외출요청
+                      </StyledButtonInfo>
                     </TableCell>
+                    {/* 요청대기 , 외출중, 출차 완료 나눠서 표시하기 */}
+                    {/* <TableCell>
+                      <StyledButtonSuccess>요청 대기</StyledButtonSuccess>
+                    </TableCell> */}
 
                     <TableCell align="right">
                       <UserMoreMenu />

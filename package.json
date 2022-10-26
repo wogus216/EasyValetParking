@@ -2,7 +2,7 @@
   "name": "@minimal/material-kit-react",
   "author": "minimals.cc",
   "licence": "MIT",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "private": false,
   "scripts": {
     "start": "react-scripts start",

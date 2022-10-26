@@ -7,6 +7,7 @@ const { createSlice } = require('@reduxjs/toolkit');
 
 // 토큰
 const token = window.localStorage.getItem('accessToken');
+const user = window.localStorage.getItem('user');
 
 const initialState = {
   isLoading: false,
@@ -14,6 +15,7 @@ const initialState = {
   parkings: [],
   parkingArea: [],
   vipData: [],
+  exitParkingWaitList: [],
 };
 
 const slice = createSlice({
@@ -45,6 +47,12 @@ const slice = createSlice({
       state.isLoading = false;
       state.vipData = action.payload;
       console.log('state.vipData==>', state.vipData);
+    },
+    postExitParkingSuccess(state, action) {
+      console.log('postExitParkingSuccess action.payload==>', action.payload);
+      state.isLoading = false;
+      state.exitParkingWaitList = [...state.exitParkingWaitList, action.payload];
+      console.log('state.exitParkingWaitList==>', state.vipData);
     },
   },
 });
@@ -132,6 +140,26 @@ export const getVipCarNumber = (carNumber) => async (dispatch) => {
     const { data } = response.data;
     console.log('getVipDataSuccess data==>', data.data);
     dispatch(parkingsActions.getVipDataSuccess(data.data));
+  } catch (error) {
+    console.log('error', error.response);
+  }
+};
+
+// 출차 또는 외출 요청
+export const postExitParking = (ticketId, exitType) => async (dispatch) => {
+  dispatch(parkingsActions.startLoading());
+  const url = urls.postExitParking;
+  const body = {
+    memberId: user.id,
+    parkingRecordId: ticketId,
+    exitType,
+  };
+  const config = { headers: accessTokenHeaders(token) };
+  try {
+    const response = await axios.post(url, body, config);
+    const { data } = response.data;
+    console.log('postExitParkingSuccess data==>', data.data);
+    // dispatch(parkingsActions.postExitParkingSuccess(data.data));
   } catch (error) {
     console.log('error', error.response);
   }

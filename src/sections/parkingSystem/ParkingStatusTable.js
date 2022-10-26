@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -36,6 +36,7 @@ const rows = [
   { id: '15', carNumber: '6789', parkinglot: 'M', request: '외출' },
 ];
 
+// eslint-disable-next-line react/prop-types
 export default function ParkingStatusTable({ btnText = '승인' }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
@@ -48,6 +49,14 @@ export default function ParkingStatusTable({ btnText = '승인' }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    first;
+
+    return () => {
+      second;
+    };
+  }, [third]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

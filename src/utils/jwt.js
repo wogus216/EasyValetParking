@@ -30,6 +30,7 @@ const setSession = (accessToken) => {
 };
 
 const getPayload = (accessToken) => {
+  console.log('accessToken==>', accessToken);
   const payload = jwtDecode(accessToken);
 
   return {

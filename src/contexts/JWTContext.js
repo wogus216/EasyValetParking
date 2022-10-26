@@ -18,6 +18,7 @@ const handlers = {
     return { ...state, isAuthenticated, isInitialized: true, user };
   },
   LOGIN: (state, action) => {
+    console.log('login action==>', action.payload);
     const { user } = action.payload;
     return { ...state, isAuthenticated: true, user };
   },
@@ -77,11 +78,13 @@ const AuthProvider = ({ children }) => {
     const config = jsonHeader();
 
     const response = await axios.post(url, body, config);
-    console.log('response===>', response.data);
+    console.log('jwt response===>', response.data.data);
     const { accesstoken } = response.headers;
-    const user = getPayload(accesstoken);
-    console.log('user', user);
+    const { id, department, nickname } = response.data.data;
+    const user = { id, department, nickname };
     setSession(accesstoken);
+    // 회원번호, 부서 저장
+    localStorage.setItem('user', JSON.stringify(user));
     dispatch({ type: 'LOGIN', payload: { user } });
     return response;
   };
