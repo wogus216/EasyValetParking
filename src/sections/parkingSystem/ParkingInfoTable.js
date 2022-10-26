@@ -163,7 +163,7 @@ const ParkingInfoTable = () => {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(parkingData, getComparator(order, orderBy), filterData);
+  const filteredUsers = applySortFilter(parkings, getComparator(order, orderBy), filterData);
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
