@@ -11,7 +11,10 @@ export function fDateTime(date) {
 }
 
 export function fNowTime(date) {
-  return format(new Date(date), 'dd  HH:mm');
+  if (date === '9999-12-31 00:00:00') {
+    return null;
+  }
+  return format(new Date(date), 'HH:mm');
 }
 
 export function fDateTimeSuffix(date) {

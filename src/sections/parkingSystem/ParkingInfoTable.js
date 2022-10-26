@@ -21,7 +21,7 @@ import Scrollbar from 'src/components/Scrollbar';
 import SearchNotFound from 'src/components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashboard/user';
 // mock
-import USERLIST from 'src/_mock/user';
+
 import { StyledButtonPrimary, StyledButtonInfo } from 'src/utils/styled';
 import { fNowTime } from 'src/utils/formatTime';
 import { getParkings } from 'src/redux/slice/parking';
@@ -78,10 +78,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) =>
-        _user.ticketNumber === Number(query) ||
-        _user.carNumber === Number(query) ||
-        _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) => _user.ticketNumber === Number(query) || _user.carNumber === query || _user.vipName === query
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -126,7 +123,7 @@ const ParkingInfoTable = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = parkings.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -161,7 +158,7 @@ const ParkingInfoTable = () => {
     setFilterData(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - parkings.length) : 0;
 
   const filteredUsers = applySortFilter(parkings, getComparator(order, orderBy), filterData);
 
@@ -177,7 +174,7 @@ const ParkingInfoTable = () => {
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
-              rowCount={USERLIST.length}
+              rowCount={parkings.length}
               numSelected={selected.length}
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
@@ -246,7 +243,7 @@ const ParkingInfoTable = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={USERLIST.length}
+        count={parkings.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
