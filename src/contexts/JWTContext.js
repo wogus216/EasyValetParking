@@ -80,9 +80,10 @@ const AuthProvider = ({ children }) => {
     const response = await axios.post(url, body, config);
     console.log('jwt response===>', response.data.data);
     const { accesstoken } = response.headers;
+    const { refreshtoken } = response.headers;
     const { id, department, nickname } = response.data.data;
     const user = { id, department, nickname };
-    setSession(accesstoken);
+    setSession(accesstoken, refreshtoken);
     // 회원번호, 부서 저장
     localStorage.setItem('user', JSON.stringify(user));
     dispatch({ type: 'LOGIN', payload: { user } });

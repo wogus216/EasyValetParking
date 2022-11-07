@@ -50,14 +50,6 @@ export default function ParkingStatusTable({ btnText = '승인' }) {
     setPage(0);
   };
 
-  useEffect(() => {
-    first;
-
-    return () => {
-      second;
-    };
-  }, [third]);
-
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       background: theme.palette.gradients.violet,

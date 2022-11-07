@@ -2,7 +2,7 @@
   "name": "@minimal/material-kit-react",
   "author": "minimals.cc",
   "licence": "MIT",
-  "version": "0.0.41",
+  "version": "0.0.42",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
@@ -69,6 +69,7 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-spinners": "^0.13.6",
     "redux-persist": "^6.0.0",
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",

@@ -29,7 +29,8 @@ export default function ParkingAreaTable() {
 
   useEffect(() => {
     disPatch(getParkingArea());
-    console.log('parkingArea==>', parkingArea);
+    console.log('parkingArea==>', parkingArea.length);
+
     setParkingAreaStatus({
       M: parkingArea[4].carCount,
       M2: parkingArea[6].carCount,
@@ -62,29 +63,33 @@ export default function ParkingAreaTable() {
 
   return (
     <Paper sx={{ width: '100%' }}>
-      <TableContainer sx={{ maxHeight: 300 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <StyledTableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
-                  {column.label}
-                </StyledTableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {rows.map((data, i) => (
-              <TableRow key={data.id}>
-                <StyledTableCell size="small">{data.keyNumber}</StyledTableCell>
-                <StyledTableCell size="small">{data.parkginglotName}</StyledTableCell>
-                <StyledTableCell size="small">{data.status}</StyledTableCell>
+      {parkingArea.length === 0 ? (
+        <div>로딩중</div>
+      ) : (
+        <TableContainer sx={{ maxHeight: 300 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <StyledTableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
+                    {column.label}
+                  </StyledTableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+
+            <TableBody>
+              {rows.map((data, i) => (
+                <TableRow key={data.id}>
+                  <StyledTableCell size="small">{data.keyNumber}</StyledTableCell>
+                  <StyledTableCell size="small">{data.parkginglotName}</StyledTableCell>
+                  <StyledTableCell size="small">{data.status}</StyledTableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Paper>
   );
 }

@@ -9,6 +9,8 @@ import Logo from 'src/components/Logo';
 import { LoginForm } from 'src/sections/auth/login';
 // text
 import text from 'src/utils/text';
+// loading
+import Loading from 'src/components/Loading';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // ----------------------------------------------------------------------
@@ -65,7 +67,6 @@ export default function Login() {
       <RootStyle>
         <HeaderStyle>
           <Logo />
-
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -1 } }}>
               {login.ment1}

@@ -1,14 +1,13 @@
 import axios from 'axios';
-import tr from 'date-fns/locale/tr';
 import MySnackbar from 'src/components/Snackbar';
-import { urls, headers, accessTokenHeaders } from 'src/libs/reqConf';
+import { urls, headers, tokenHeaders } from 'src/libs/reqConf';
 
 const { createSlice } = require('@reduxjs/toolkit');
 
 // 토큰
-const token = window.localStorage.getItem('accessToken');
+const accessToken = window.localStorage.getItem('accessToken');
+const refreshToken = window.localStorage.getItem('refreshToken');
 const user = window.localStorage.getItem('user');
-
 const initialState = {
   isLoading: false,
   error: false,
@@ -62,10 +61,11 @@ export function getParkings() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     const url = urls.getParkings;
-    const config = { headers: accessTokenHeaders(token) };
+    const config = { headers: tokenHeaders(accessToken, refreshToken) };
     try {
       const response = await axios.get(url, config);
       const { data } = response.data;
+      console.log('입차 데이터 response', response);
       console.log('getParkings data==>', data);
       dispatch(slice.actions.getParkingsSuccess(data));
     } catch (error) {
@@ -77,7 +77,7 @@ export function getParkings() {
 export const getParkingArea = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   const url = urls.getParkingArea;
-  const config = { headers: accessTokenHeaders(token) };
+  const config = { headers: tokenHeaders(accessToken, refreshToken) };
   try {
     const response = await axios.get(url, config);
     const { data } = response.data;
@@ -94,7 +94,7 @@ export const postParkingTicket = (parkingData) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   const url = urls.postParkingTicket;
   const body = parkingData;
-  const config = { headers: accessTokenHeaders(token) };
+  const config = { headers: tokenHeaders(accessToken, refreshToken) };
   try {
     const response = await axios.post(url, body, config);
     const { data } = response.data;
@@ -119,7 +119,7 @@ export const getVipName = (name) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   const url = `${urls.getVipName}/${name}`;
   console.log('url-->', url);
-  const config = { headers: accessTokenHeaders(token) };
+  const config = { headers: tokenHeaders(accessToken, refreshToken) };
   try {
     const response = await axios.get(url, config);
     const { data } = response.data;
@@ -134,7 +134,7 @@ export const getVipName = (name) => async (dispatch) => {
 export const getVipCarNumber = (carNumber) => async (dispatch) => {
   dispatch(parkingsActions.startLoading());
   const url = `${urls.getVipCarNumber}/${carNumber}`;
-  const config = { headers: accessTokenHeaders(token) };
+  const config = { headers: tokenHeaders(accessToken) };
   try {
     const response = await axios.get(url, config);
     const { data } = response.data;
@@ -154,7 +154,7 @@ export const postExitParking = (ticketId, exitType) => async (dispatch) => {
     parkingRecordId: ticketId,
     exitType,
   };
-  const config = { headers: accessTokenHeaders(token) };
+  const config = { headers: tokenHeaders(accessToken, refreshToken) };
   try {
     const response = await axios.post(url, body, config);
     const { data } = response.data;

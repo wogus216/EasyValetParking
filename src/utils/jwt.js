@@ -14,9 +14,10 @@ const isValidToken = (accessToken) => {
   return decoded.exp > currentTime;
 };
 // 토큰, 자동로그인 저장
-const setSession = (accessToken) => {
+const setSession = (accessToken, refreshtoken) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshtoken', refreshtoken);
     // localStorage.setItem('remember', remember);
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     // This function below will handle when token is expired
@@ -24,6 +25,7 @@ const setSession = (accessToken) => {
     // handleTokenExpired(exp);
   } else {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     // localStorage.setItem('remember', remember);
     delete axios.defaults.headers.common.Authorization;
   }

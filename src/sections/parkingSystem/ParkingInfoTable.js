@@ -24,7 +24,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from 'src/sections/@dashb
 
 import { StyledButtonPrimary, StyledButtonInfo, StyledButtonSuccess } from 'src/utils/styled';
 import { fNowTime } from 'src/utils/formatTime';
-import { getParkings, postExitParking } from 'src/redux/slice/parking';
+import parking, { getParkings, postExitParking } from 'src/redux/slice/parking';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from 'src/hooks/useAuth';
 // ----------------------------------------------------------------------
@@ -110,10 +110,10 @@ const ParkingInfoTable = () => {
   ]);
   const dispatch = useDispatch();
   const { parkings } = useSelector((state) => state.parkings);
-
+  console.log('parkings==>', parkings);
   useEffect(() => {
     dispatch(getParkings());
-    setParkingData([...parkings]);
+    // setParkingData([...parkings]);
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {

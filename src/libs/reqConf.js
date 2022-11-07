@@ -45,9 +45,10 @@ export const headers = (token) => ({
 
 // jwt 헤더
 
-export const accessTokenHeaders = (token) => ({
+export const tokenHeaders = (accessToken, refreshToken) => ({
   'Content-Type': 'application/json',
-  ACCESSTOKEN: token,
+  ACCESSTOKEN: accessToken,
+  REFRESHTOKEN: refreshToken,
 });
 
 // 파일 업로드 폼데이터 변환
